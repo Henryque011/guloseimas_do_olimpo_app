@@ -11,7 +11,9 @@
 /* font-family: 'Great Vibes'; */
 
 @import url('https://fonts.googleapis.com/css2?family=Jacques+Francois&display=swap');
+
 /* font-family: "Jacques Francois", serif; */
+/* bg = background */
 
 :root {
     --font_text: Poppins;
@@ -100,6 +102,15 @@ h1 {
             }
         }
     }
+}
+
+.bg_img {
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* text-align: end; */
+    position:;
 }
 
 .box_login {
