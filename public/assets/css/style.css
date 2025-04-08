@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Grape+Nuts&family=Great+Vibes&family=Poly:ital@0;1&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Font para textos */
+/* font-family: 'Poppins'; */
+
+@import url('https://fonts.googleapis.com/css2?family=Grape+Nuts&family=Great+Vibes&family=Poly:ital@0;1&display=swap');
+/* Font p/ links */
+/* font-family: 'Poly'; */
+
+@import url('https://fonts.googleapis.com/css2?family=Grape+Nuts&family=Great+Vibes&display=swap');
+/* Fonte cursiva */
+/* font-family: 'Great Vibes'; */
+
+@import url('https://fonts.googleapis.com/css2?family=Jacques+Francois&display=swap');
+/* font-family: "Jacques Francois", serif; */
+
+:root {
+    --font_text: Poppins;
+    --font_links: Poly;
+    --font_cursive: Great Vibes;
+    --body_color: #FEFBF3;
+    --color_font: #985C41;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: #FEFBF3;
+    height: 100vh;
+    width: 100%;
+}
+
+header {
+    margin: 20px 0 20px 0;
+    text-align: center;
+}
+
+.site {
+    margin: 0 auto;
+    max-width: 400px;
+    width: 100%;
+}
+
+h2 {
+    text-align: center;
+    font-size: 16pt;
+    color: var(--color_font);
+    text-transform: uppercase;
+    font-family: var(--font_links);
+}
+
+.box_login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 350px;
+
+    label {
+        img {
+            align-items: center;
+            width: 16px;
+            margin: 0 2px 0 0;
+        }
+    }
+
+    input {
+        border: none;
+        background-color: transparent;
+        font-size: 14pt;
+        color: var(--color_font);
+        text-decoration: none;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    input::placeholder {
+        color: var(--color_font);
+        opacity: 1;
+    }
+
+    hr {
+        margin-top: 1px;
+        background: black;
+    }
+}
