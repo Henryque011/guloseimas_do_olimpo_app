@@ -21,6 +21,7 @@
     --font_cursive: Great Vibes;
     --body_color: #FEFBF3;
     --color_font: #985C41;
+    --light_brown: #ccaea0ee;
     --light-green: #9BE79E;
 }
 
@@ -90,6 +91,7 @@ h1 {
                     height: 100%;
                     display: flex;
                     justify-content: center;
+                    border-radius: 5px;
                     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 
                     button {
@@ -110,7 +112,7 @@ h1 {
         }
 
         .bg_img {
-            position: absolute;
+            position: fixed;
             bottom: 0;
             left: 0;
             z-index: -1;
@@ -125,6 +127,34 @@ h1 {
                 filter: opacity(50%);
                 filter: contrast(50%);
                 filter: saturate(70%);
+            }
+        }
+
+        .socials {
+            text-align: center;
+
+            h3 {
+                text-transform: capitalize;
+                font-family: var(--font_links);
+                color: var(--color_font);
+                margin: 0 0 5px 0;
+                font-size: 14pt;
+                font-weight: bold;
+            }
+
+            div {
+                a {
+                    i {
+                        margin: 0 10px 0 0;
+                        color: var(--light_brown);
+                        font-size: xx-large;
+                        filter: drop-shadow(5px 5px 3px rgba(51, 50, 50, 0.385));
+                    }
+
+                    img {
+                        filter: drop-shadow(5px 5px 3px rgba(51, 50, 50, 0.385));
+                    }
+                }
             }
         }
     }
