@@ -67,50 +67,67 @@ h1 {
     padding: 30px;
 }
 
-.container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
+.inicial {
+    .site {
+        position: relative;
 
-    div {
-        width: 150px;
-        height: 50px;
-        background-color: #F7EDE3;
-        border-radius: 5px;
-        align-items: center;
-        text-align: center;
-
-        a {
-            width: 100%;
-            height: 100%;
+        .container {
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
 
-            button {
-                background-color: transparent;
-                border: none;
-                color: var(--color_font);
-                font-family: var(--font_text);
-                font-size: medium;
-                font-weight: 555;
-                text-transform: capitalize;
+            div {
+                width: 150px;
+                height: 50px;
+                background-color: #F7EDE3;
+                border-radius: 5px;
+                align-items: center;
+                text-align: center;
 
-                i {
-                    margin: 0 0 0 5px;
+                a {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+
+                    button {
+                        background-color: transparent;
+                        border: none;
+                        color: var(--color_font);
+                        font-family: var(--font_text);
+                        font-size: medium;
+                        font-weight: 555;
+                        text-transform: capitalize;
+
+                        i {
+                            margin: 0 0 0 5px;
+                        }
+                    }
                 }
             }
         }
-    }
-}
 
-.bg_img {
-    background-color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* text-align: end; */
-    position:;
+        .bg_img {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: end;
+
+            img {
+                width: 100%;
+                max-height: 300px;
+                object-fit: cover;
+                filter: opacity(50%);
+                filter: contrast(50%);
+                filter: saturate(70%);
+            }
+        }
+    }
 }
 
 .box_login {
