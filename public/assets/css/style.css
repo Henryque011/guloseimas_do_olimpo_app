@@ -23,7 +23,8 @@
     --color_font: #985C41;
     --light_brown: #ccaea0ee;
     --light-green: #9BE79E;
-    --green: #0B3222;
+    --dark-green: #0B3222;
+    --red_back: #c4001af5;
 }
 
 * {
@@ -67,6 +68,48 @@ h1 {
 
 .space {
     padding: 30px;
+}
+
+/* estrutura de button para submit */
+.button_form {
+    button {
+        border: none;
+        border-radius: 5px;
+        width: 250px;
+        height: 50px;
+        background: green;
+        color: white;
+        font-family: var(--font_links);
+        font-weight: bolder;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+}
+
+/* estrutura para voltar */
+.button_voltar {
+
+    a {
+        align-items: center;
+        text-align: center;
+
+        button {
+            width: 250px;
+            height: 50px;
+            font-weight: bolder;
+            border-radius: 5px;
+            letter-spacing: 2px;
+            border: none;
+            color: white;
+            text-transform: uppercase;
+            font-family: var(--font_links);
+            background-color: var(--red_back);
+
+            i {
+                margin: 0 5px 0 0;
+            }
+        }
+    }
 }
 
 .inicial {
@@ -147,7 +190,7 @@ h1 {
             div {
                 a {
                     i {
-                        margin: 0 10px 0 0;
+                        margin: 10px 40px 0 0;
                         color: var(--light_brown);
                         font-size: xx-large;
                         filter: drop-shadow(5px 5px 3px rgba(51, 50, 50, 0.385));
@@ -169,48 +212,83 @@ h1 {
     text-align: center;
     height: 350px;
 
-    label {
-        img {
-            align-items: center;
-            width: 16px;
-            margin: 0 2px 0 0;
+    .container {
+        label {
+            img {
+                align-items: center;
+                width: 16px;
+                margin: 0 2px 0 0;
+            }
         }
-    }
 
-    input {
-        border: none;
-        background-color: transparent;
-        font-size: 14pt;
-        color: var(--color_font);
-        text-decoration: none;
-    }
+        input {
+            border: none;
+            background-color: transparent;
+            font-size: 14pt;
+            color: var(--color_font);
+            text-decoration: none;
+        }
 
-    input:focus {
-        outline: none;
-    }
+        input:focus {
+            outline: none;
+        }
 
-    input::placeholder {
-        color: var(--color_font);
-        opacity: 1;
-    }
+        input::placeholder {
+            color: var(--color_font);
+            opacity: 1;
+        }
 
-    hr {
-        margin: 1px 0 40px 0;
-        background: black;
-    }
+        hr {
+            margin: 1px 0 40px 0;
+            background: black;
 
-    .button_form {
+        }
+
+        hr:nth-child(4) {
+            margin: 1px 0 10px 0;
+        }
+
         button {
             border: none;
-            border-radius: 5px;
-            width: 250px;
-            height: 50px;
-            background: var(--light-green);
-            color: white;
-            font-family: var(--font_links);
-            font-weight: 500;
-            letter-spacing: 2px;
+            background-color: transparent;
+            font-size: large;
+
+            i {
+                color: var(--color_font);
+            }
         }
+    }
+
+    .lembrar {
+        display: flex;
+        justify-content: end;
+        flex-direction: column;
+
+        a {
+            align-items: start;
+            text-align: start;
+            color: var(--color_font);
+            margin: 1px 0 15px 0;
+        }
+
+        .checkbox {
+            display: flex;
+            align-items: center;
+            text-align: center;
+
+            input {
+                width: 30px;
+                height: 20px;
+            }
+
+            p {
+                color: var(--color_font);
+            }
+        }
+    }
+
+    .button_voltar {
+        margin-top: 20px;
     }
 }
 
@@ -231,7 +309,7 @@ h1 {
                     margin: 0 0 5px 0;
                     font-family: var(--font_links);
                     text-transform: capitalize;
-                    color: var(--green);
+                    color: var(--dark-green);
                     font-weight: bold;
                     letter-spacing: 2px;
                 }
@@ -257,6 +335,10 @@ h1 {
                     margin: 1px 0 4px 0;
                     background: black;
                 }
+            }
+
+            .button_form {
+                margin: 0 0 20px 0;
             }
         }
     }
