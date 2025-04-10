@@ -343,3 +343,22 @@ h1 {
         }
     }
 }
+
+.menu {
+    .site {
+        h3 {
+            text-align: center;
+            font-size: 21pt;
+            color: var(--color_font);
+            text-transform: capitalize;
+            font-family: var(--font_cursive);
+            letter-spacing: 2px;
+            margin: 0 0 10px 0;
+        }
+
+        p {
+            text-align: center;
+
+        }
+    }
+}
