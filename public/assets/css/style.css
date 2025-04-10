@@ -358,7 +358,7 @@ h1 {
 
         p {
             text-align: center;
-
+            font-family: var(--font_links);
         }
     }
 }
