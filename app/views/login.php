@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-<?php 
+<?php
 require_once('template/head.php')
 ?>
 
 <body>
-    <header>
-        <a href="index.html"><img src="../public/assets/img/logo_header.svg" alt="Logo Guloseimas do olimpo"></a>
-    </header>
+    <?php
+    require_once('template/header.php')
+    ?>
     <section class="login">
         <article class="site">
             <h2>Entrar</h2>
