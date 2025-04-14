@@ -344,7 +344,15 @@ h1 {
     }
 }
 
+/* body {
+    background-image: url(../img/background_menu.png);
+    background-size: cover;
+    background-position: center;
+
+} */
+
 .menu {
+
     .site {
         h3 {
             text-align: center;
@@ -357,9 +365,49 @@ h1 {
         }
 
         p {
+            margin-top: 15px;
             text-align: center;
             font-family: var(--font_links);
             font-family: var(--font_text);
+        }
+
+        .container {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+
+            div {
+                margin: 10px;
+
+                a {
+                    button {
+                        width: 250px;
+                        height: 50px;
+                        font-weight: bolder;
+                        border-radius: 20px;
+                        letter-spacing: 2px;
+                        border: none;
+                        color: white;
+                        text-transform: uppercase;
+                        font-family: var(--font_links);
+                        background-color: var(--color_font);
+                    }
+                }
+            }
+
+            .button_voltar {
+                a {
+                    button {
+                        background-color: var(--red_back);
+
+                        i {
+                            margin: 0 0 0 5px;
+                        }
+                    }
+                }
+            }
         }
     }
 }
