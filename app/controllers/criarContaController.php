@@ -10,9 +10,5 @@ class criarContaController extends Controller
         
         $this->carregarViews('criarConta', $dados);
 
-        if (!isset($_SESSION['criarConta'])) {
-            header("Location: " . BASE_URL . "index.php?url=criarConta");
-            exit;
-        }
     }
 }
