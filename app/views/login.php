@@ -16,7 +16,7 @@ require_once('template/head.php')
                 <form method="POST" action="">
                     <div class="container">
                         <label for="email">
-                            <img src="../public/assets/img/email_forms.svg" alt="Icone de Email">
+                            <img src="<?php echo BASE_URL; ?>assets/img/email_forms.svg" alt="Icone de Email">
                         </label>
                         <input type="email" name="email" id="email" placeholder="Endereço de email">
                         <hr>
