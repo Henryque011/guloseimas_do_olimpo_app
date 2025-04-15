@@ -16,12 +16,12 @@ require_once('template/head.php')
             <div class="space"></div>
             <div class="container">
                 <div>
-                    <a href="<?php echo BASE_URL; ?>index.php?criarConta">
+                    <a href="<?php echo BASE_URL; ?>index.php?url=criarConta">
                         <button>Criar conta<i class="fa-solid fa-user-plus"></i></button>
                     </a>
                 </div>
                 <div>
-                    <a href="<?php echo BASE_URL; ?>index.php?login">
+                    <a href="<?php echo BASE_URL; ?>index.php?url=login">
                         <button>Login<i class="fa-solid fa-right-to-bracket fa-fade"></i></button>
                     </a>
                 </div>
