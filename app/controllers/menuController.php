@@ -1,6 +1,6 @@
 <?php
 
-class initialController extends Controller
+class menuController extends Controller
 {
     public function index()
     {
