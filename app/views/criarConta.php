@@ -78,7 +78,7 @@ require_once('template/head.php')
                     <button type="submit">Criar conta</button>
                 </div>
                 <div class="button_voltar">
-                    <a href="index.html"><button><i class="fa-solid fa-backward"></i>Voltar</button></a>
+                    <a href="<?php echo BASE_URL; ?>index.php?url=initial"><button><i class="fa-solid fa-backward"></i>Voltar</button></a>
                 </div>
             </div>
         </article>
