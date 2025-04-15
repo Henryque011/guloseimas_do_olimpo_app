@@ -38,7 +38,7 @@ require_once('app/views/template/head.php')
                     </a>
                 </div>
                 <div class="button_voltar">
-                    <a href="index.html"><button>sair<i class="fas fa-sign-out-alt"></i></button></a>
+                    <a href="<?php echo BASE_URL; ?>index.php?url=initial"><button>sair<i class="fas fa-sign-out-alt"></i></button></a>
                 </div>
             </div>
         </article>
