@@ -14,7 +14,7 @@ class loginController extends Controller
     public function autenticar()
     {
         $email = $_POST['email'] ?? null;
-        $senha = $_POST['senha'] ?? null;
+        $senha = $_POST['senha_entrar'] ?? null;
 
         //fazer a requisição da API DE LOGIN
         $url = BASE_API . "login?email_cliente=$email&senha_cliente=$senha";
