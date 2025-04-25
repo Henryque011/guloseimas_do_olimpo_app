@@ -23,7 +23,7 @@ require_once('template/head.php')
                     </div>
                     <div class="container">
                         <label for="senha"></label>
-                        <input type="password" id="senha_entrar" name="senha_entrar" placeholder="Senha">
+                        <input type="password" id="senha_entrar" name="senha" placeholder="Senha">
                         <button type="button" id="toggleSenha"><i class="fa-solid fa-eye fa-rotate-by"></i></button>
                         <hr>
                     </div>
