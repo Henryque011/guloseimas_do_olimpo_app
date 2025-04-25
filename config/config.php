@@ -2,7 +2,7 @@
 
 define('BASE_URL', 'http://localhost/guloseimas_do_olimpoapp/public/');
 
-define('BASE_API','');
+define('BASE_API','https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/api/');
 
 spl_autoload_register(function ($class) {
     if (file_exists('../app/controllers/' . $class . '.php')) {
