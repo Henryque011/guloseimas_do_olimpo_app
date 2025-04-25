@@ -13,7 +13,7 @@ require_once('template/head.php')
         <article class="site">
             <h2>Entrar</h2>
             <div class="box_login">
-                <form method="POST" action="">
+                <form method="POST" action="<?php echo BASE_URL; ?>index.php?url=login/autenticar">
                     <div class="container">
                         <label for="email">
                             <img src="<?php echo BASE_URL; ?>assets/img/email_forms.svg" alt="Icone de Email">
