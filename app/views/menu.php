@@ -15,7 +15,7 @@ require_once('template/head.php')
         <article class="site">
             <h2>bem vindo a</h2>
             <h3>Guloseimas do Olimpo!</h3>
-            <p>Olá, Aleatório da silva!</p>
+            <p>Olá,<?php echo $nome_cliente ?>!</p>
             <div class="container">
                 <div>
                     <a href="#">
