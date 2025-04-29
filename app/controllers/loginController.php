@@ -14,47 +14,45 @@ class loginController extends Controller
     public function autenticar()
     {
         $email = $_POST['email'] ?? null;
-        $senha = $_POST['senha_entrar'] ?? null;
-
-        //fazer a requisição da API DE LOGIN
-        $url = BASE_API . "login?email_cliente=$email&senha_cliente=$senha";
-
-        // Reconhecimento da chave(Inicializa uma sessão cURL)
-        $ch = curl_init($url);
-
-        // Definir que o conteudo venha com a string
+        $senha = $_POST['senha'] ?? null;
+    
+        // monta o corpo do POST em JSON
+        $postFields = json_encode([
+            'email_cliente' => $email,
+            'senha_cliente' => $senha
+        ]);
+    
+        $ch = curl_init(BASE_API . "login");
+    
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // recebe os dados em campos 
-        // $response = file_get_contents($url); troca na forma de resposta
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($postFields)
+        ]);
+    
         $response = curl_exec($ch);
-
-        // separa os dados em 'campos'
-        // Obtém o código HTTP da resposta (200, 400, 401)
-
-        // $data = json_decode($response, true);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        // Encerra a sessão Curl
+    
         curl_close($ch);
-
+    
         if ($statusCode == 200) {
-
             $data = json_decode($response, true);
             if (!empty($data['token'])) {
-                // $idToken = json_decode(base64_decode($data['token']), true);
-                // $id_cliente = $idToken['id'] ?? null;
-
                 $_SESSION['token'] = $data['token'];
-                // $_SESSION['id_cliente'] = $id_cliente;
                 header("location: " . BASE_URL . "index.php?url=menu");
                 exit;
             } else {
+                $_SESSION['erro_login'] = 'Token não retornado';
                 header("location: " . BASE_URL . "index.php?url=login");
                 exit;
             }
         } else {
-            echo "login Inválido - ";
+            $_SESSION['erro_login'] = 'E-mail ou senha inválidos';
+            header("location: " . BASE_URL . "index.php?url=login");
+            exit;
         }
     }
+    
 }
