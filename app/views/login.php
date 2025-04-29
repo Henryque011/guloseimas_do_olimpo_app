@@ -48,6 +48,22 @@ require_once('template/head.php')
         </article>
     </section>
 
+    <?php if (!empty($_SESSION['erro_login'])): ?>
+        <div id="erroModal" class="modal" style="display: flex; flex-direction: column; justify-content: center; align-items:center; text-align: center; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid; border-radius: 20px; z-index: 999; font-family: Poly;">
+            <p style="margin: 0;"><?php echo $_SESSION['erro_login']; ?></p>
+            <button onclick="document.getElementById('erroModal').style.display='none'" style="margin-top:20px; width: 100px;
+            text-align: center;">Fechar</button>
+        </div>
+        <script>
+            setTimeout(() => {
+                const modal = document.getElementById('erroModal');
+                if (modal) modal.style.display = 'none';
+            }, 5000); // Fecha automaticamente após 5 segundos
+        </script>
+        <?php unset($_SESSION['erro_login']); ?>
+    <?php endif; ?>
+
+
     <script src="https://kit.fontawesome.com/bedd2811b0.js" crossorigin="anonymous"></script>
 </body>
 
