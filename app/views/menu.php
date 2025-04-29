@@ -3,7 +3,7 @@
 
 
 <?php
-require_once('app/views/template/head.php')
+require_once('template/head.php')
 ?>
 
 <body>
