@@ -50,9 +50,8 @@ class loginController extends Controller
             }
         } else {
             $_SESSION['erro_login'] = 'E-mail ou senha inválidos';
-            header("location: " . BASE_URL . "index.php?url=login");
-            exit;
+            $this->index(); // Não redireciona, apenas carrega a view novamente
+            exit;            
         }
-    }
-    
+    }    
 }
