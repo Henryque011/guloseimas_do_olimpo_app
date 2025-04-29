@@ -235,4 +235,35 @@ class ApiController extends Controller
             echo json_encode(['erro' => 'Erro interno: ' . $e->getMessage()]);
         }
     }
+
+    public function getClienteById($id)
+    {
+        try {
+            $cliente = $this->autenticarToken();
+
+            // Verifica se o token está válido e pertence ao cliente requisitado
+            if (!$cliente || !isset($cliente['id_cliente']) || $cliente['id_cliente'] != $id) {
+                http_response_code(403);
+                echo json_encode(['erro' => 'Acesso negado.']);
+                return;
+            }
+
+            // Busca os dados completos do cliente no banco
+            $dados = $this->clienteModel->getClienteById($id);
+
+            if (!$dados) {
+                http_response_code(404);
+                echo json_encode(['erro' => 'Cliente não encontrado']);
+                return;
+            }
+
+            echo json_encode($dados, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'erro' => 'Erro interno no servidor',
+                'detalhe' => $e->getMessage()
+            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
