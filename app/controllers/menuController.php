@@ -1,23 +1,27 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 class menuController extends Controller
 {
     public function index()
     {
 
-        // if (!isset($_SESSION['token'])) {
-        //     header("Location: " . BASE_URL . "index.php?url=login");
-        //     exit;
-        // }
+        if (!isset($_SESSION['token'])) {
+            header("Location: " . BASE_URL . "index.php?url=login");
+            exit;
+        }
 
-        // $dadosToken = TokenHelper::validar($_SESSION['token']);
+        $dadosToken = TokenHelper::validar($_SESSION['token']);
 
-        // if (!$dadosToken) {
-        //     session_destroy();
-        //     unset($_SESSION['token']);
-        //     header("Location: " . BASE_URL . "index.php?url=login");
-        //     exit;
-        // }
+        if (!$dadosToken) {
+            session_destroy();
+            unset($_SESSION['token']);
+            header("Location: " . BASE_URL . "index.php?url=login");
+            exit;
+        }
 
         // buscar cliente na api
         $url = BASE_API  . "cliente/" . $dadosToken['id'];
@@ -31,7 +35,7 @@ class menuController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'authorization: Bearer ' . $_SESSION['token']
         ]);
-        
+
         // recebe os dados dessa solicitação
         $response = curl_exec($ch);
 
