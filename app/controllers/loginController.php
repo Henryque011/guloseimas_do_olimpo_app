@@ -13,17 +13,21 @@ class loginController extends Controller
     //metodo de autenticação
     public function autenticar()
     {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         $email = $_POST['email'] ?? null;
         $senha = $_POST['senha'] ?? null;
-    
+
         // monta o corpo do POST em JSON
         $postFields = json_encode([
             'email_cliente' => $email,
             'senha_cliente' => $senha
         ]);
-    
+
         $ch = curl_init(BASE_API . "login");
-    
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
@@ -31,12 +35,12 @@ class loginController extends Controller
             'Content-Type: application/json',
             'Content-Length: ' . strlen($postFields)
         ]);
-    
+
         $response = curl_exec($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
+
         curl_close($ch);
-    
+
         if ($statusCode == 200) {
             $data = json_decode($response, true);
             if (!empty($data['token'])) {
@@ -51,7 +55,7 @@ class loginController extends Controller
         } else {
             $_SESSION['erro_login'] = 'E-mail ou senha inválidos';
             $this->index(); // Não redireciona, apenas carrega a view novamente
-            exit;            
+            exit;
         }
-    }    
+    }
 }
