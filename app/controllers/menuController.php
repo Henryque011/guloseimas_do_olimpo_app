@@ -23,35 +23,32 @@ class menuController extends Controller
             exit;
         }
 
-        // buscar cliente na api
-        $url = BASE_API  . "cliente/" . $dadosToken['id'];
+        $url = BASE_API . "cliente"; 
 
-        // Reconhecimento da chave(Inicializa uma sessão cURL)
-        $ch = curl_init($url);
-
-        // Definir que o conteudo venha com a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'authorization: Bearer ' . $_SESSION['token']
+        $postFields = json_encode([
+            'email' => $dadosToken['email']
         ]);
 
-        // recebe os dados dessa solicitação
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $_SESSION['token']
+        ]);
+
         $response = curl_exec($ch);
-
-        // Obtém o código HTTP da resposta (200, 400, 401)
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        // Encerra a sessão Curl
         curl_close($ch);
 
         if ($statusCode != 200) {
-            echo "Erro ao buscar cliente na API.\n
-            Código HTTP: $statusCode";
+            echo "Erro ao buscar cliente na API. Código HTTP: $statusCode";
+            exit;
         }
 
-        // separa os dados em 'campos'
         $cliente = json_decode($response, true);
+
 
         $dados = array();
         $dados['titulo'] = 'kiOficina - Menu';
