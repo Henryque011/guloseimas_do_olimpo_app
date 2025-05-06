@@ -1,0 +1,44 @@
+<form method="POST" action="index.php?url=login/autenticar">
+    <input type="email" name="email" value="<?= $_COOKIE['email'] ?? '' ?>" required>
+    <input type="password" name="senha" value="<?= $_COOKIE['senha'] ?? '' ?>" required>
+
+    <div class="checkbox">
+        <input type="checkbox" id="lembrar" name="lembrar" <?= isset($_COOKIE['email']) ? 'checked' : '' ?>>
+        <label for="lembrar">
+            <p>Lembrar email/senha</p>
+        </label>
+    </div>
+
+    <input type="submit" value="Entrar">
+</form>
+
+public function autenticar()
+{
+    $email = $_POST['email'] ?? '';
+    $senha = $_POST['senha'] ?? '';
+    $lembrar = isset($_POST['lembrar']);
+
+    // Aqui entra sua validação e autenticação com a API ou banco...
+
+    // Se autenticado com sucesso
+    if ($autenticadoComSucesso) {
+
+        if ($lembrar) {
+            // Salva os cookies por 30 dias
+            setcookie('email', $email, time() + (30 * 24 * 60 * 60), "/");
+            setcookie('senha', $senha, time() + (30 * 24 * 60 * 60), "/");
+        } else {
+            // Limpa os cookies se o usuário desmarcar
+            setcookie('email', '', time() - 3600, "/");
+            setcookie('senha', '', time() - 3600, "/");
+        }
+
+        // redireciona para o painel
+        header("Location: " . BASE_URL . "index.php?url=menu");
+        exit;
+    } else {
+        $_SESSION['flash'] = 'Login inválido';
+        header("Location: " . BASE_URL . "index.php?url=login");
+        exit;
+    }
+}
