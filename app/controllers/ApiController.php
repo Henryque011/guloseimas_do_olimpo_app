@@ -213,11 +213,11 @@ class ApiController extends Controller
             $email = $input['email'];
 
             // Verifica se o token pertence ao mesmo e-mail requisitado
-            // if ($clienteToken['email_cliente'] !== $email) {
-            //     http_response_code(403);
-            //     echo json_encode(['erro' => 'Acesso negado.']);
-            //     return;
-            // }
+            if ($clienteToken['email_cliente'] !== $email) {
+                http_response_code(403);
+                echo json_encode(['erro' => 'Acesso negado.']);
+                return;
+            }
 
             // Busca exclusivamente por e-mail
             $cliente = $this->clienteModel->buscarPorEmail($email);
