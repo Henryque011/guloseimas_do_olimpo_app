@@ -63,6 +63,18 @@ require_once('template/head.php')
         <?php unset($_SESSION['erro_login']); ?>
     <?php endif; ?>
 
+    <script>
+        document.getElementById('toggleSenha').addEventListener('click', function() {
+            let inputSenha = document.getElementById('senha_entrar');
+            if (inputSenha.type === 'password') {
+                inputSenha.type = 'text';
+                this.textContent = '👁️'; // Ícone para mostrar a senha
+            } else {
+                inputSenha.type = 'password';
+                this.textContent = '🙈'; // Ícone para esconder a senha
+            }
+        });
+    </script>
 
     <script src="https://kit.fontawesome.com/bedd2811b0.js" crossorigin="anonymous"></script>
 </body>
