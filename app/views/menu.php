@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 
-
 <?php
 require_once('template/head.php')
 ?>
@@ -38,7 +37,7 @@ require_once('template/head.php')
                     </a>
                 </div>
                 <div class="button_voltar">
-                    <a href="<?php echo BASE_URL; ?>index.php?url=initial"><button>sair<i class="fas fa-sign-out-alt"></i></button></a>
+                    <a href="<?php echo BASE_URL; ?>index.php?url=login/sair"><button>sair<i class="fas fa-sign-out-alt"></i></button></a>
                 </div>
             </div>
         </article>
