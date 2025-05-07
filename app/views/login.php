@@ -34,7 +34,7 @@ require_once('template/head.php')
                             name="senha"
                             placeholder="Senha"
                             value="<?= $_COOKIE['senha'] ?? '' ?>">
-                        <button type="button" id="toggleSenha"><i class="fa-solid fa-eye fa-rotate-by"></i></button>
+                        <button type="button" id="toggleSenha"><i class="fa-solid fa-eye-slash fa-rotate-by"></i></button>
                         <hr>
                     </div>
                     <div class="lembrar">
@@ -72,7 +72,7 @@ require_once('template/head.php')
             setTimeout(() => {
                 const modal = document.getElementById('erroModal');
                 if (modal) modal.style.display = 'none';
-            }, 5000); // Fecha automaticamente após 5 segundos
+            }, 5000);
         </script>
         <?php unset($_SESSION['erro_login']); ?>
     <?php endif; ?>
@@ -80,12 +80,16 @@ require_once('template/head.php')
     <script>
         document.getElementById('toggleSenha').addEventListener('click', function() {
             let inputSenha = document.getElementById('senha_entrar');
+            let icon = this.querySelector('i');
+
             if (inputSenha.type === 'password') {
                 inputSenha.type = 'text';
-                this.textContent = '👁️'; // Ícone para mostrar a senha
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             } else {
                 inputSenha.type = 'password';
-                this.textContent = '🙈'; // Ícone para esconder a senha
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash'); 
             }
         });
     </script>
