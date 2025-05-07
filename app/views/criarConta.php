@@ -100,6 +100,38 @@ require_once('template/head.php')
         }
     </script>
 
+    <script>
+        document.getElementById('cep').addEventListener('blur', function() {
+            let cep = this.value.replace(/\D/g, '');
+
+            if (cep.length !== 8) {
+                alert('CEP inválido');
+                return;
+            }
+
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Erro na requisição do CEP');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.erro) {
+                        alert('CEP não encontrado');
+                        return;
+                    }
+
+                    document.getElementById('endereco').value = data.logradouro || '';
+                    document.getElementById('bairro').value = data.bairro || '';
+                    document.getElementById('cidade').value = data.localidade || '';
+                    document.getElementById('estado').value = data.uf || '';
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar CEP:', error);
+                    alert('Erro ao buscar CEP');
+                });
+        });
+    </script>
+
 </body>
 
 </html>
