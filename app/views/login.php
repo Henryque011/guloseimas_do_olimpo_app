@@ -55,7 +55,7 @@ require_once('template/head.php')
                         <button type="submit">CONTINUAR</button>
                     </div>
                     <div class="button_voltar">
-                        <a href="<?php echo BASE_URL; ?>index.php?url=initial"><button><i class="fa-solid fa-backward"></i>Voltar</button></a>
+                        <a href="<?php echo BASE_URL; ?>index.php?url=initial"><i class="fa-solid fa-backward"></i>Voltar</a>
                     </div>
                 </form>
             </div>
@@ -89,7 +89,7 @@ require_once('template/head.php')
             } else {
                 inputSenha.type = 'password';
                 icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash'); 
+                icon.classList.add('fa-eye-slash');
             }
         });
     </script>
