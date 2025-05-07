@@ -4,11 +4,67 @@ class criarContaController extends Controller
 {
     public function index()
     {
+        $dados = ['titulo' => 'Guloseimas do Olimpo - Criar Conta'];
 
-        $dados = array();
-        $dados['titulo'] = 'Guloseimas do olimpo - Criar Conta';
-        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $camposObrigatorios = ['nome', 'email', 'data_nasc', 'endereco', 'bairro', 'cidade', 'estado', 'cep', 'senha'];
+            $erros = [];
+
+            foreach ($camposObrigatorios as $campo) {
+                if (empty($_POST[$campo])) {
+                    $erros[] = "O campo '$campo' é obrigatório.";
+                }
+            }
+
+            if ($_POST['senha'] !== $_POST['confirmar_senha']) {
+                $erros[] = "As senhas não coincidem.";
+            }
+
+            if (empty($erros)) {
+                $dadosCliente = [
+                    "nome"      => $_POST['nome'],
+                    "email"     => $_POST['email'],
+                    "cpf"       => $_POST['cpf'] ?? '',
+                    "data_nasc" => $_POST['data_nasc'],
+                    "telefone"  => $_POST['telefone'] ?? '',
+                    "endereco"  => $_POST['endereco'],
+                    "bairro"    => $_POST['bairro'],
+                    "cidade"    => $_POST['cidade'],
+                    "estado"    => $_POST['estado'],
+                    "cep"       => $_POST['cep'],
+                    "senha"     => $_POST['senha']
+                ];
+
+                // Envia requisição POST para a API
+                $url = BASE_API . "salvarCliente";
+
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dadosCliente));
+
+                $response = curl_exec($ch);
+                $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+
+                if ($statusCode === 200 || $statusCode === 201) {
+                    $dados['mensagem'] = 'Conta criada com sucesso!';
+                    header('Location: ' . BASE_URL . 'index.php?url=menu');
+                    exit;
+                } else {
+                    $dados['erros'][] = 'Erro ao criar conta. Código HTTP: ' . $statusCode;
+
+                    $resp = json_decode($response, true);
+                    if (!empty($resp['erro'])) {
+                        $dados['erros'][] = $resp['erro'];
+                    }
+                }
+            }
+
+            $dados['erros'] = $erros;
+        }
+
         $this->carregarViews('criarConta', $dados);
-
     }
 }
