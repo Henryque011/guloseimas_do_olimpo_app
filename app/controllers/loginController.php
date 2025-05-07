@@ -48,7 +48,6 @@ class loginController extends Controller
             if (!empty($data['token'])) {
                 $_SESSION['token'] = $data['token'];
 
-                // ✅ Lembrar email/senha (use com cuidado!)
                 if ($lembrar) {
                     setcookie('email', $email, time() + (30 * 24 * 60 * 60), "/");
                     setcookie('senha', $senha, time() + (30 * 24 * 60 * 60), "/");
@@ -66,7 +65,6 @@ class loginController extends Controller
             $_SESSION['erro_login'] = 'E-mail ou senha inválidos.';
         }
 
-        // Volta para a tela de login com erro
         header("Location: " . BASE_URL . "index.php?url=login");
         exit;
     }
