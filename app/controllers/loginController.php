@@ -16,9 +16,10 @@ class loginController extends Controller
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        
+
         $email = $_POST['email'] ?? null;
         $senha = $_POST['senha'] ?? null;
+        $lembrar = isset($_POST['lembrar']);
 
         // monta o corpo do POST em JSON
         $postFields = json_encode([
@@ -43,19 +44,30 @@ class loginController extends Controller
 
         if ($statusCode == 200) {
             $data = json_decode($response, true);
+
             if (!empty($data['token'])) {
                 $_SESSION['token'] = $data['token'];
-                header("location: " . BASE_URL . "index.php?url=menu");
+
+                // ✅ Lembrar email/senha (use com cuidado!)
+                if ($lembrar) {
+                    setcookie('email', $email, time() + (30 * 24 * 60 * 60), "/");
+                    setcookie('senha', $senha, time() + (30 * 24 * 60 * 60), "/");
+                } else {
+                    setcookie('email', '', time() - 3600, "/");
+                    setcookie('senha', '', time() - 3600, "/");
+                }
+
+                header("Location: " . BASE_URL . "index.php?url=menu");
                 exit;
             } else {
-                $_SESSION['erro_login'] = 'Token não retornado';
-                header("location: " . BASE_URL . "index.php?url=login");
-                exit;
+                $_SESSION['erro_login'] = 'Token não retornado.';
             }
         } else {
-            $_SESSION['erro_login'] = 'E-mail ou senha inválidos';
-            $this->index(); // Não redireciona, apenas carrega a view novamente
-            exit;
+            $_SESSION['erro_login'] = 'E-mail ou senha inválidos.';
         }
+
+        // Volta para a tela de login com erro
+        header("Location: " . BASE_URL . "index.php?url=login");
+        exit;
     }
 }
