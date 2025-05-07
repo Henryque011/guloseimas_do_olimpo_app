@@ -18,19 +18,33 @@ require_once('template/head.php')
                         <label for="email">
                             <img src="<?php echo BASE_URL; ?>assets/img/email_forms.svg" alt="Icone de Email">
                         </label>
-                        <input type="email" name="email" id="email" placeholder="Endereço de email">
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder="Endereço de email"
+                            value="<?= $_COOKIE['email'] ?? '' ?>">
                         <hr>
                     </div>
                     <div class="container">
                         <label for="senha"></label>
-                        <input type="password" id="senha_entrar" name="senha" placeholder="Senha">
+                        <input
+                            type="password"
+                            id="senha_entrar"
+                            name="senha"
+                            placeholder="Senha"
+                            value="<?= $_COOKIE['senha'] ?? '' ?>">
                         <button type="button" id="toggleSenha"><i class="fa-solid fa-eye fa-rotate-by"></i></button>
                         <hr>
                     </div>
                     <div class="lembrar">
                         <a href="http://localhost/guloseimas_do_olimpophp/public/Recuperarsenha/">Esqueceu a senha?</a>
                         <div class="checkbox">
-                            <input type="checkbox" id="lembrar" name="lembrar">
+                            <input
+                                type="checkbox"
+                                id="lembrar"
+                                name="lembrar"
+                                <?= isset($_COOKIE['email']) ? 'checked' : '' ?>>
                             <label for="lembrar">
                                 <p>lembrar email/senha</p>
                             </label>
