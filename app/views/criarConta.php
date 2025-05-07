@@ -1,3 +1,15 @@
+<?php if (!empty($dados['mensagem'])): ?>
+    <div class="sucesso"><?php echo $dados['mensagem']; ?></div>
+<?php endif; ?>
+
+<?php if (!empty($dados['erros'])): ?>
+    <div class="erros">
+        <?php foreach ($dados['erros'] as $erro): ?>
+            <p><?php echo $erro; ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -13,7 +25,7 @@ require_once('template/head.php')
         <article class="site">
             <h2>Criar conta</h2>
             <div class="container">
-                <form action="#" method="POST">
+                <form action="index.php?url=criarConta" method="POST">
                     <div class="box_conta">
                         <h5>Nome:</h5>
                         <label for="nome"></label>
@@ -25,6 +37,13 @@ require_once('template/head.php')
                         <h5>Email:</h5>
                         <label for="email"></label>
                         <input type="email" name="email" id="email" placeholder="Email" value="" required>
+                        <hr>
+                    </div>
+                    <div class="box_conta">
+                        <h5>Data de nascimento:</h5>
+                        <label for="data_nasc"></label>
+                        <input type="date" name="data_nasc" id="data_nasc" placeholder="Data de nascimento" value="" required
+                            autocomplete="off">
                         <hr>
                     </div>
                     <div class="box_conta">
@@ -73,10 +92,11 @@ require_once('template/head.php')
                             value="" required autocomplete="off">
                         <hr>
                     </div>
+                    <div class="button_form">
+                        <button type="submit">Criar conta</button>
+                    </div>
                 </form>
-                <div class="button_form">
-                    <button type="submit">Criar conta</button>
-                </div>
+
                 <div class="button_voltar">
                     <a href="<?php echo BASE_URL; ?>index.php?url=initial"><i class="fa-solid fa-backward"></i>Voltar</a>
                 </div>
