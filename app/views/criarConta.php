@@ -1,3 +1,5 @@
+<?php session_start();
+?>
 <?php if (!empty($dados['mensagem'])): ?>
     <div class="sucesso"><?php echo $dados['mensagem']; ?></div>
 <?php endif; ?>
@@ -47,6 +49,18 @@ require_once('template/head.php')
                         <hr>
                     </div>
                     <div class="box_conta">
+                        <h5>CPF:</h5>
+                        <label for="cpf"></label>
+                        <input type="text" name="cpf" id="cpf" placeholder="Cpf" required oninput="permitirSomenteNumeros(event)">
+                        <hr>
+                    </div>
+                    <div class="box_conta">
+                        <h5>Telefone:</h5>
+                        <label for="telefone"></label>
+                        <input type="text" name="telefone" id="telefone" placeholder="Telefone" required oninput="permitirSomenteNumeros(event)">
+                        <hr>
+                    </div>
+                    <div class="box_conta">
                         <h5>Cep:</h5>
                         <label for="cep"></label>
                         <input type="text" name="cep" id="cep" placeholder="Cep" value="" required required
@@ -68,9 +82,11 @@ require_once('template/head.php')
                     <div class="box_conta">
                         <h5>Estado:</h5>
                         <label for="estado"></label>
-                        <input type="text" name="estado" id="estado" placeholder="Estado" value="" required>
+                        <input type="text" name="estado" id="estado" placeholder="Estado" maxlength="2" value="" required
+                            oninput="permitirSomenteSiglaEstado(event)">
                         <hr>
                     </div>
+
                     <div class="box_conta">
                         <h5>Cidade:</h5>
                         <label for="cidade"></label>
@@ -151,6 +167,14 @@ require_once('template/head.php')
                 });
         });
     </script>
+
+    <script>
+        function permitirSomenteSiglaEstado(event) {
+            let input = event.target;
+            input.value = input.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2);
+        }
+    </script>
+
 
 </body>
 
