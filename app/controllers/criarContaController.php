@@ -55,22 +55,26 @@ class criarContaController extends Controller
                         'nome'  => $dadosCliente['nome'],
                         'email' => $dadosCliente['email']
                     ];
-                
+
                     if (!empty($responseData['token'])) {
                         $_SESSION['token'] = $responseData['token'];
+                        $_SESSION['mensagem'] = 'Conta criada com sucesso!';
+                        header('Location: ' . BASE_URL . 'index.php?url=menu');
+                        exit;
                     } else {
-                        $dados['erros'][] = 'Token não foi retornado pela API.';
-                        $this->carregarViews('criarConta', $dados);
-                        return;
+                        $erros[] = 'Token não foi retornado pela API.';
                     }
-                
-                    header('Location: ' . BASE_URL . 'index.php?url=menu');
-                    exit;
-                }                
+                } else {
+                    $mensagemErroAPI = $responseData['erro'] ?? $responseData['mensagem'] ?? 'Erro ao criar conta.';
+                    $erros[] = "Erro da API: $mensagemErroAPI (Código HTTP: $statusCode)";
+                }
             }
 
             $dados['erros'] = $erros;
         }
+        $dados['valores'] = $_POST;
+        $dados['erros'] = $erros;
+
 
         $this->carregarViews('criarConta', $dados);
     }
