@@ -330,6 +330,16 @@ h1 {
                     opacity: 1;
                 }
 
+                button {
+                    border: none;
+                    background-color: transparent;
+                    font-size: large;
+
+                    i {
+                        color: var(--color_font);
+                    }
+                }
+
                 hr {
                     margin: 1px 0 4px 0;
                     background: black;
