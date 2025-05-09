@@ -266,4 +266,8 @@ class ApiController extends Controller
             ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         }
     }
+
+    // public function getEstado(){
+    //     $dados = $this->EstadoModel->getEstado($id);
+    // }
 }
