@@ -1,22 +1,5 @@
 <?php session_start(); ?>
 
-<?php if (!empty($_SESSION['mensagem'])): ?>
-    <div class="sucesso"><?php echo $_SESSION['mensagem'];
-                            unset($_SESSION['mensagem']); ?></div>
-<?php endif; ?>
-
-<?php if (!empty($dados['mensagem'])): ?>
-    <div class="sucesso"><?php echo $dados['mensagem']; ?></div>
-<?php endif; ?>
-
-<?php if (!empty($dados['erros'])): ?>
-    <div class="erros">
-        <?php foreach ($dados['erros'] as $erro): ?>
-            <p><?php echo htmlspecialchars($erro); ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -139,6 +122,64 @@ require_once('template/head.php')
             </div>
         </article>
     </section>
+
+    <?php if (!empty($_SESSION['mensagem'])): ?>
+        <div id="mensagemModal" class="modal">
+            <p><?php echo $_SESSION['mensagem']; ?></p>
+            <button onclick="document.getElementById('mensagemModal').style.display='none'">Fechar</button>
+        </div>
+        <script>
+            setTimeout(() => {
+                const modal = document.getElementById('mensagemModal');
+                if (modal) modal.style.display = 'none';
+            }, 5000);
+        </script>
+        <?php unset($_SESSION['mensagem']); ?>
+    <?php endif; ?>
+
+    <?php if (!empty($dados['erros'])): ?>
+        <div id="erroModal" class="modal" style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+        text-align: center;
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #ffe5e5;
+        color: #b30000;
+        padding: 20px;
+        border: 2px solid #b30000;
+        border-radius: 10px;
+        z-index: 9999;
+        font-family: Poly;
+        min-width: 300px;
+    ">
+            <div>
+                <?php foreach ($dados['erros'] as $erro): ?>
+                    <p style="margin: 0;"><?php echo $erro; ?></p>
+                <?php endforeach; ?>
+            </div>
+            <button onclick="document.getElementById('erroModal').style.display='none'" style="
+            margin-top: 20px;
+            padding: 8px 16px;
+            background: #b30000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        ">Fechar</button>
+        </div>
+
+        <script>
+            setTimeout(() => {
+                const modal = document.getElementById('erroModal');
+                if (modal) modal.style.display = 'none';
+            }, 6000);
+        </script>
+    <?php endif; ?>
 
     <script src="https://kit.fontawesome.com/bedd2811b0.js" crossorigin="anonymous"></script>
 
