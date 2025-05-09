@@ -83,6 +83,20 @@ require_once('template/head.php')
         <?php unset($_SESSION['erro_login']); ?>
     <?php endif; ?>
 
+    <?php if (!empty($_SESSION['mensagem'])): ?>
+        <div id="mensagemModal" class="modal" style="display: flex; flex-direction: column; justify-content: center; align-items:center; text-align: center; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); background: #e6ffe6; color: #006600; padding: 20px; border: 1px solid #006600; border-radius: 10px; z-index: 999;">
+            <p style="margin: 0;"><?php echo $_SESSION['mensagem']; ?></p>
+            <button onclick="document.getElementById('mensagemModal').style.display='none'" style="margin-top:20px;">Fechar</button>
+        </div>
+        <script>
+            setTimeout(() => {
+                const modal = document.getElementById('mensagemModal');
+                if (modal) modal.style.display = 'none';
+            }, 5000);
+        </script>
+        <?php unset($_SESSION['mensagem']); ?>
+    <?php endif; ?>
+
     <script>
         document.getElementById('toggleSenha').addEventListener('click', function() {
             let inputSenha = document.getElementById('senha_entrar');
