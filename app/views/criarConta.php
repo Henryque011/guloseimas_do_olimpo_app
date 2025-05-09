@@ -1,5 +1,10 @@
-<?php session_start();
-?>
+<?php session_start(); ?>
+
+<?php if (!empty($_SESSION['mensagem'])): ?>
+    <div class="sucesso"><?php echo $_SESSION['mensagem'];
+                            unset($_SESSION['mensagem']); ?></div>
+<?php endif; ?>
+
 <?php if (!empty($dados['mensagem'])): ?>
     <div class="sucesso"><?php echo $dados['mensagem']; ?></div>
 <?php endif; ?>
@@ -7,10 +12,11 @@
 <?php if (!empty($dados['erros'])): ?>
     <div class="erros">
         <?php foreach ($dados['erros'] as $erro): ?>
-            <p><?php echo $erro; ?></p>
+            <p><?php echo htmlspecialchars($erro); ?></p>
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -31,58 +37,68 @@ require_once('template/head.php')
                     <div class="box_conta">
                         <h5>Nome:</h5>
                         <label for="nome"></label>
-                        <input type="text" name="nome" id="nome" placeholder="Nome" value=""
+                        <input type="text" name="nome" id="nome" placeholder="Nome"
+                            value="<?php echo htmlspecialchars($dados['valores']['nome'] ?? ''); ?>"
                             oninput="permitirSomenteLetras(event)">
+
                         <hr>
                     </div>
                     <div class="box_conta">
                         <h5>Email:</h5>
                         <label for="email"></label>
-                        <input type="email" name="email" id="email" placeholder="Email" value="" required>
+                        <input type="email" name="email" id="email" placeholder="Email"
+                            value="<?php echo htmlspecialchars($dados['valores']['email'] ?? ''); ?>" required>
                         <hr>
                     </div>
                     <div class="box_conta">
                         <h5>Data de nascimento:</h5>
                         <label for="data_nasc"></label>
-                        <input type="date" name="data_nasc" id="data_nasc" placeholder="Data de nascimento" value="" required
-                            autocomplete="off">
+                        <input type="date" name="data_nasc" id="data_nasc" placeholder="Data de nascimento"
+                            value="<?php echo htmlspecialchars($dados['valores']['data_nasc'] ?? ''); ?>" required>
                         <hr>
                     </div>
                     <div class="box_conta">
                         <h5>CPF:</h5>
                         <label for="cpf"></label>
-                        <input type="text" name="cpf" id="cpf" placeholder="Cpf" required oninput="permitirSomenteNumeros(event)">
+                        <input type="text" name="cpf" id="cpf" placeholder="Cpf"
+                            value="<?php echo htmlspecialchars($dados['valores']['cpf'] ?? ''); ?>" oninput="permitirSomenteNumeros(event)">
                         <hr>
                     </div>
                     <div class="box_conta">
                         <h5>Telefone:</h5>
                         <label for="telefone"></label>
-                        <input type="text" name="telefone" id="telefone" placeholder="Telefone" required oninput="permitirSomenteNumeros(event)">
+                        <input type="text" name="telefone" id="telefone" placeholder="Telefone"
+                            value="<?php echo htmlspecialchars($dados['valores']['telefone'] ?? ''); ?>" oninput="permitirSomenteNumeros(event)">
                         <hr>
                     </div>
                     <div class="box_conta">
                         <h5>Cep:</h5>
                         <label for="cep"></label>
-                        <input type="text" name="cep" id="cep" placeholder="Cep" value="" required required
-                            oninput="permitirSomenteNumeros(event)">
+                        <input type="text" name="cep" id="cep" placeholder="Cep"
+                            value="<?php echo htmlspecialchars($dados['valores']['cep'] ?? ''); ?>" required oninput="permitirSomenteNumeros(event)">
+
                         <hr>
                     </div>
                     <div class="box_conta">
                         <h5>Endereço:</h5>
                         <label for="Endereco"></label>
-                        <input type="text" name="endereco" id="endereco" placeholder="Endereco" value="">
+                        <input type="text" name="endereco" id="endereco" placeholder="Endereco"
+                            value="<?php echo htmlspecialchars($dados['valores']['endereco'] ?? ''); ?>">
+
                         <hr>
                     </div>
                     <div class="box_conta">
                         <h5>Bairro:</h5>
                         <label for="bairro"></label>
-                        <input type="text" name="bairro" id="bairro" placeholder="Bairro" value="" required>
+                        <input type="text" name="bairro" id="bairro" placeholder="Bairro"
+                            value="<?php echo htmlspecialchars($dados['valores']['bairro'] ?? ''); ?>" required>
                         <hr>
                     </div>
                     <div class="box_conta">
                         <h5>Estado:</h5>
                         <label for="estado"></label>
-                        <input type="text" name="estado" id="estado" placeholder="Estado" maxlength="2" value="" required
+                        <input type="text" name="estado" id="estado" placeholder="Estado" maxlength="2"
+                            value="<?php echo htmlspecialchars($dados['valores']['estado'] ?? ''); ?>" required
                             oninput="permitirSomenteSiglaEstado(event)">
                         <hr>
                     </div>
@@ -90,7 +106,8 @@ require_once('template/head.php')
                     <div class="box_conta">
                         <h5>Cidade:</h5>
                         <label for="cidade"></label>
-                        <input type="text" name="cidade" id="cidade" placeholder="Cidade" value="" required required
+                        <input type="text" name="cidade" id="cidade" placeholder="Cidade"
+                            value="<?php echo htmlspecialchars($dados['valores']['cidade'] ?? ''); ?>" required
                             oninput="permitirSomenteLetras(event)">
                         <hr>
                     </div>
@@ -99,6 +116,7 @@ require_once('template/head.php')
                         <label for="senha"></label>
                         <input type="password" name="senha" id="senha" placeholder="Senha" value="" required
                             autocomplete="off">
+                        <button type="button" id="toggleSenha"><i class="fa-solid fa-eye-slash fa-rotate-by"></i></button>
                         <hr>
                     </div>
                     <div class="box_conta">
@@ -106,6 +124,8 @@ require_once('template/head.php')
                         <label for="confirmar_senha"></label>
                         <input type="password" name="confirmar_senha" id="confirmar_senha" placeholder="Confirmar Senha"
                             value="" required autocomplete="off">
+                        <button type="button" id="toggleSenha"><i class="fa-solid fa-eye-slash fa-rotate-by"></i></button>
+
                         <hr>
                     </div>
                     <div class="button_form">
@@ -175,6 +195,27 @@ require_once('template/head.php')
         }
     </script>
 
+    <script>
+        document.getElementById('toggleSenha').addEventListener('click', function() {
+            let senhaInputs = [
+                document.getElementById('senha'),
+                document.getElementById('confirmar_senha')
+            ];
+            let icon = this.querySelector('i');
+
+            senhaInputs.forEach(input => {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+            });
+        });
+    </script>
 
 </body>
 
