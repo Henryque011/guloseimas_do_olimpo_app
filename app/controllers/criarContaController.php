@@ -5,10 +5,10 @@ class criarContaController extends Controller
     public function index()
     {
         $dados = ['titulo' => 'Guloseimas do Olimpo - Criar Conta'];
+        $erros = []; 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $camposObrigatorios = ['nome', 'email', 'data_nasc', 'endereco', 'bairro', 'cidade', 'estado', 'cep', 'senha'];
-            $erros = [];
 
             foreach ($camposObrigatorios as $campo) {
                 if (empty($_POST[$campo])) {
@@ -35,7 +35,6 @@ class criarContaController extends Controller
                     "senha"     => $_POST['senha']
                 ];
 
-                // Envia requisição POST para a API
                 $url = BASE_API . "salvarCliente";
 
                 $ch = curl_init($url);
@@ -55,11 +54,11 @@ class criarContaController extends Controller
                         'nome'  => $dadosCliente['nome'],
                         'email' => $dadosCliente['email']
                     ];
-
+                
                     if (!empty($responseData['token'])) {
                         $_SESSION['token'] = $responseData['token'];
-                        $_SESSION['mensagem'] = 'Conta criada com sucesso!';
-                        header('Location: ' . BASE_URL . 'index.php?url=menu');
+                        $_SESSION['mensagem'] = 'Conta criada com sucesso!';  
+                        header('Location: ' . BASE_URL . 'index.php?url=login'); 
                         exit;
                     } else {
                         $erros[] = 'Token não foi retornado pela API.';
@@ -68,14 +67,13 @@ class criarContaController extends Controller
                     $mensagemErroAPI = $responseData['erro'] ?? $responseData['mensagem'] ?? 'Erro ao criar conta.';
                     $erros[] = "Erro da API: $mensagemErroAPI (Código HTTP: $statusCode)";
                 }
+                
             }
 
-            $dados['erros'] = $erros;
+            $dados['valores'] = $_POST;
         }
-        $dados['valores'] = $_POST;
-        $dados['erros'] = $erros;
 
-
+        $dados['erros'] = $erros; 
         $this->carregarViews('criarConta', $dados);
     }
 }
