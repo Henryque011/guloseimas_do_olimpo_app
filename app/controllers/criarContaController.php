@@ -58,10 +58,6 @@ class criarContaController extends Controller
                     if (!empty($responseData['token'])) {
                         $_SESSION['token'] = $responseData['token'];
                         $_SESSION['mensagem'] = 'Conta criada com sucesso!';
-                        header("Cache-Control: no-cache, no-store, must-revalidate"); // Para evitar cache
-                        header("Pragma: no-cache");
-                        header("Expires: 0");
-
                         header('Location: ' . BASE_URL . 'index.php?url=login');
                         exit;
                     } else {
