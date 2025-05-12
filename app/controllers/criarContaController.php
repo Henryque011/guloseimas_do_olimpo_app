@@ -61,6 +61,7 @@ class criarContaController extends Controller
                         header("Cache-Control: no-cache, no-store, must-revalidate"); // Para evitar cache
                         header("Pragma: no-cache");
                         header("Expires: 0");
+
                         header('Location: ' . BASE_URL . 'index.php?url=login');
                         exit;
                     } else {
