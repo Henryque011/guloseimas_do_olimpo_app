@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 ?>
 
 <?php if (!empty($_SESSION['mensagem'])): ?>
-    <div id="mensagemModal" class="modal" style="/* seu estilo aqui */">
+    <div id="mensagemModal" class="modal">
         <p><?php echo $_SESSION['mensagem']; ?></p>
         <button onclick="document.getElementById('mensagemModal').style.display='none'">Fechar</button>
     </div>
@@ -61,7 +61,7 @@ require_once('template/head.php')
                         <hr>
                     </div>
                     <div class="lembrar">
-                        <a href="http://localhost/guloseimas_do_olimpophp/public/Recuperarsenha/">Esqueceu a senha?</a>
+                        <a href="<?php echo BASE_URL . 'index.php?url=login/esqueciSenha'; ?>">Esqueceu a senha?</a>
                         <div class="checkbox">
                             <input
                                 type="checkbox"
