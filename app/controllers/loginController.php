@@ -50,11 +50,9 @@ class loginController extends Controller
 
                 if ($lembrar) {
                     setcookie('email', $email, time() + (30 * 24 * 60 * 60), "/");
-                    setcookie('senha', $senha, time() + (30 * 24 * 60 * 60), "/");
                 } else {
                     setcookie('email', '', time() - 3600, "/");
-                    setcookie('senha', '', time() - 3600, "/");
-                }
+                }                
 
                 header("Location: " . BASE_URL . "index.php?url=menu");
                 exit;
