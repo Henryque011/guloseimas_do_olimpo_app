@@ -101,4 +101,11 @@ class loginController extends Controller
         header("Location: " . BASE_URL . "index.php?url=login");
         exit;
     }
+
+    public function esqueciSenha(){
+        $dados = array();
+        $dados['titulo'] = 'Recuperar senha - Guloseimas do Olimpo';
+
+        $this->carregarViews('esqueci_senha', $dados);
+    }
 }
