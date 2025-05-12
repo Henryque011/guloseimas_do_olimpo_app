@@ -88,10 +88,8 @@ class ApiController extends Controller
     public function salvarCliente()
     {
         try {
-            // Recebe os dados do corpo da requisição
             $input = json_decode(file_get_contents("php://input"), true);
 
-            // Validação básica (pode expandir se quiser)
             $camposObrigatorios = ['nome', 'email', 'cpf', 'data_nasc', 'telefone', 'endereco', 'bairro', 'cidade', 'estado', 'cep', 'senha'];
             foreach ($camposObrigatorios as $campo) {
                 if (empty($input[$campo])) {
@@ -101,20 +99,18 @@ class ApiController extends Controller
                 }
             }
 
-            // Pega os dados
-            $nome = $input['nome'];
-            $email = $input['email'];
-            $cpf = $input['cpf'];
+            $nome      = $input['nome'];
+            $email     = $input['email'];
+            $cpf       = $input['cpf'];
             $data_nasc = $input['data_nasc'];
-            $telefone = $input['telefone'];
-            $endereco = $input['endereco'];
-            $bairro = $input['bairro'];
-            $cidade = $input['cidade'];
-            $estado = $input['estado']; // sigla
-            $cep = $input['cep'];
-            $senha = password_hash($input['senha'], PASSWORD_DEFAULT);
+            $telefone  = $input['telefone'];
+            $endereco  = $input['endereco'];
+            $bairro    = $input['bairro'];
+            $cidade    = $input['cidade'];
+            $estado    = $input['estado']; // sigla
+            $cep       = $input['cep'];
+            $senha     = $input['senha']; // ❗ Sem password_hash
 
-            // Tenta salvar o cliente
             $sucesso = $this->clienteModel->salvarCliente($nome, $email, $cpf, $data_nasc, $telefone, $endereco, $bairro, $cidade, $estado, $cep, $senha);
 
             if (!$sucesso) {
@@ -123,7 +119,6 @@ class ApiController extends Controller
                 return;
             }
 
-            // Buscar o cliente para pegar o ID
             $cliente = $this->clienteModel->buscarCliente($email);
             if (!$cliente) {
                 http_response_code(500);
@@ -131,7 +126,6 @@ class ApiController extends Controller
                 return;
             }
 
-            // Gerar o token
             require_once(__DIR__ . '/../../core/TokenHelper.php');
             $TokenHelper = new TokenHelper();
             $token = $TokenHelper::gerar([
