@@ -106,7 +106,7 @@ require_once('template/head.php')
                         <label for="confirmar_senha"></label>
                         <input type="password" name="confirmar_senha" id="confirmar_senha" placeholder="Confirmar Senha"
                             value="" required autocomplete="off">
-                        <button type="button" id="toggleSenha"><i class="fa-solid fa-eye-slash fa-rotate-by"></i></button>
+                        <button type="button" id="toggleSenha"></i></button>
 
                         <hr>
                     </div>
