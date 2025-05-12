@@ -13,6 +13,12 @@ require_once('template/head.php')
             <h2>Recuperar senha</h2>
             <div class="container">
                 <h3>Informe um email para recuperação</h3>
+                <form action="">
+                    <label for="email">E-mail:</label>
+                    <input type="email" name="email" id="email" required>
+
+                    <input type="submit" value="Enviar Link" class="btn-link">
+                </form>
 
             </div>
         </article>
