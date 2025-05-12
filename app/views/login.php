@@ -6,15 +6,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 
-<?php
-$_SESSION['mensagem'] = 'Simulando sucesso';
-
-if (isset($_SESSION['mensagem'])) {
-    echo '<div class="mensagem">' . $_SESSION['mensagem'] . '</div>';
-    unset($_SESSION['mensagem']);
-}
-?>
-
 <?php if (!empty($_SESSION['mensagem'])): ?>
     <div id="mensagemModal" class="modal" style="display: flex; flex-direction: column; justify-content: center; align-items:center; text-align: center; position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); background: #e6ffe6; color: #006600; padding: 20px; border: 1px solid #006600; border-radius: 10px; z-index: 999;">
         <p style="margin: 0;"><?php echo $_SESSION['mensagem']; ?></p>
@@ -55,7 +46,8 @@ require_once('template/head.php')
                             name="email"
                             id="email"
                             placeholder="Endereço de email"
-                            value="<?= $_COOKIE['email'] ?? '' ?>">
+                            value="<?= htmlspecialchars($_COOKIE['email'] ?? '') ?>">
+
                         <hr>
                     </div>
                     <div class="container">
@@ -64,8 +56,8 @@ require_once('template/head.php')
                             type="password"
                             id="senha_entrar"
                             name="senha"
-                            placeholder="Senha"
-                            value="<?= $_COOKIE['senha'] ?? '' ?>">
+                            placeholder="Senha">
+
                         <button type="button" id="toggleSenha"><i class="fa-solid fa-eye-slash fa-rotate-by"></i></button>
                         <hr>
                     </div>
