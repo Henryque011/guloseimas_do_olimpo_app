@@ -435,8 +435,7 @@ h1 {
         width: 90%;
 
         .container {
-
-            height: 150px;
+            height: 190px;
             display: flex;
             justify-content: center;
             flex-direction: column;
@@ -445,7 +444,7 @@ h1 {
             align-self: flex-start;
             background-color: #ffffff;
             border-radius: 20px;
-            margin-top: 20px;
+            margin: 20px 0 20px;
             border: var(--red_back);
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
@@ -468,15 +467,26 @@ h1 {
                 }
 
                 input#email {
-                    padding-left: 5px;
-                    width: 330px;
-                    height: 30px;
-                    margin: 10px 0 10px 0;
+                    width: 300px;
+                    height: 20px;
+                    margin: 10px 0 0px 0;
+                    border: none;
+                }
+
+                input:focus {
+                    outline: none;
+                    background-color: transparent;
+                }
+
+                hr {
+                    background: black;
+                    width: 100%;
                 }
 
                 input.btn-link {
-                    width: 115px;
-                    height: 30px;
+                    width: 150px;
+                    height: 40px;
+                    margin-top: 10px;
                     border-radius: 20px;
                     font-family: var(--font_links);
                     font-weight: 599;
@@ -484,6 +494,13 @@ h1 {
                     border-color: #985C41;
                     box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
                 }
+            }
+
+            .button_voltar {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
             }
         }
     }
