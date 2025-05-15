@@ -326,7 +326,7 @@ class ApiController extends Controller
             $mail->AltBody = "OlÃ¡ {$cliente['nome_cliente']}, acesse $link para redefinir sua senha.";
 
             $mail->send();
-
+            http_response_code(200);
             echo json_encode(['mensagem' => 'Um link de redefiniÃ§Ã£o foi enviado para seu e-mail'], JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
             http_response_code(500);
