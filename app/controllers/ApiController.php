@@ -109,7 +109,7 @@ class ApiController extends Controller
             $cidade    = $input['cidade'];
             $estado    = $input['estado']; // sigla
             $cep       = $input['cep'];
-            $senha     = $input['senha']; // ❗ Sem password_hash
+            $senha     = $input['senha'];
 
             $sucesso = $this->clienteModel->salvarCliente($nome, $email, $cpf, $data_nasc, $telefone, $endereco, $bairro, $cidade, $estado, $cep, $senha);
 
@@ -147,6 +147,7 @@ class ApiController extends Controller
             echo json_encode(['erro' => 'Erro interno: ' . $e->getMessage()]);
         }
     }
+
 
     public function login()
     {
@@ -261,6 +262,7 @@ class ApiController extends Controller
         }
     }
 
+
     public function recuperarSenha()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -309,12 +311,15 @@ class ApiController extends Controller
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
-            $mail->setFrom(EMAIL_USER, 'Ki Oficina');
+            $mail->setFrom(EMAIL_USER, 'Guloseimas do Olimpo');
             $mail->addAddress($cliente['email_cliente'], $cliente['nome_cliente']);
             $mail->isHTML(true);
             $mail->Subject = 'RecuperaÃ§Ã£o de Senha';
 
-            $link = "https://360criativo.com.br/api/redefinirSenha?token=$token";
+            $link = "https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/api/redefinirSenha?token=$token";
+
+            // https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/api/
+            // $link = "https://360criativo.com.br/api/redefinirSenha?token=$token";
 
             $mail->msgHTML("
             OlÃ¡ {$cliente['nome_cliente']},<br><br>
@@ -326,7 +331,7 @@ class ApiController extends Controller
             $mail->AltBody = "OlÃ¡ {$cliente['nome_cliente']}, acesse $link para redefinir sua senha.";
 
             $mail->send();
-            http_response_code(200);
+
             echo json_encode(['mensagem' => 'Um link de redefiniÃ§Ã£o foi enviado para seu e-mail'], JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
             http_response_code(500);
