@@ -267,7 +267,7 @@ class ApiController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
-            echo json_encode(['erro' => 'MÃ©todo nÃ£o permitido'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['erro' => 'Método não permitido'], JSON_UNESCAPED_UNICODE);
             return;
         }
 
@@ -275,7 +275,7 @@ class ApiController extends Controller
 
         if (!$email) {
             http_response_code(400);
-            echo json_encode(['erro' => 'E-mail Ã© obrigatÃ³rio'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['erro' => 'E-mail obrigatório'], JSON_UNESCAPED_UNICODE);
             return;
         }
 
@@ -283,7 +283,7 @@ class ApiController extends Controller
 
         if (!$cliente) {
             http_response_code(404);
-            echo json_encode(['erro' => 'E-mail nÃ£o encontrado'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['erro' => 'E-mail não encontrado'], JSON_UNESCAPED_UNICODE);
             return;
         }
 
@@ -308,13 +308,15 @@ class ApiController extends Controller
             $mail->Username   = EMAIL_USER;
             $mail->Password   = EMAIL_PASS;
 
+            // $mail->SMTPDebug = 2;
+
             $mail->CharSet = 'UTF-8';
             $mail->Encoding = 'base64';
 
             $mail->setFrom(EMAIL_USER, 'Guloseimas do Olimpo');
             $mail->addAddress($cliente['email_cliente'], $cliente['nome_cliente']);
             $mail->isHTML(true);
-            $mail->Subject = 'RecuperaÃ§Ã£o de Senha';
+            $mail->Subject = 'Recuperação de Senha';
 
             $link = "https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/api/redefinirSenha?token=$token";
 
@@ -323,16 +325,16 @@ class ApiController extends Controller
 
             $mail->msgHTML("
             OlÃ¡ {$cliente['nome_cliente']},<br><br>
-            Recebemos uma solicitaÃ§Ã£o para redefinir sua senha.<br>
+            Recebemos uma solicitação para redefinir sua senha.<br>
             Clique no link abaixo para criar uma nova senha:<br><br>
             <a href='$link'>$link</a><br><br>
-            Se vocÃª nÃ£o fez essa solicitaÃ§Ã£o, ignore este e-mail.
+            Se vocÃª nÃ£o fez essa solicitação, ignore este e-mail.
         ");
             $mail->AltBody = "OlÃ¡ {$cliente['nome_cliente']}, acesse $link para redefinir sua senha.";
 
             $mail->send();
 
-            echo json_encode(['mensagem' => 'Um link de redefiniÃ§Ã£o foi enviado para seu e-mail'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['mensagem' => 'Um link de redefinição foi enviado para seu e-mail'], JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
             http_response_code(500);
             echo json_encode(['erro' => 'Erro ao enviar e-mail', 'detalhes' => $mail->ErrorInfo], JSON_UNESCAPED_UNICODE);
