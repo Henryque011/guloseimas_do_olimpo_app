@@ -138,16 +138,13 @@ class loginController extends Controller
         $data = json_decode($response, true);
 
         if ($statusCode == 200) {
-            $_SESSION['flash'] = [
-                'tipo' => 'sucesso',
-                'mensagem' => $data['mensagem'] ?? 'Verifique seu e-mail para continuar.'
-            ];
+            $msg = urlencode($data['mensagem'] ?? 'Verifique seu e-mail para continuar.');
+            header("Location: " . BASE_URL . "index.php?url=login/esqueciSenha&status=sucesso&msg=$msg");
         } else {
-            $_SESSION['flash'] = [
-                'tipo' => 'erro',
-                'mensagem' => $data['erro'] ?? 'Erro ao solicitar redefinição.'
-            ];
+            $msg = urlencode($data['erro'] ?? 'Erro ao solicitar redefinição.');
+            header("Location: " . BASE_URL . "index.php?url=login/esqueciSenha&status=erro&msg=$msg");
         }
+        exit;
 
         header("Location: " . BASE_URL . "index.php?url=login/esqueciSenha");
         exit;
@@ -155,9 +152,15 @@ class loginController extends Controller
 
     public function redefinirSenha()
     {
-        $dados = array();
-        $dados['titulo'] = 'Redefinir senha - Guloseimas do Olimpo';
+        $token = $_GET['token'] ?? null;
 
-        $this->carregarViews('redefinir_senha', $dados);
+        if (!$token) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Token não informado']);
+            return;
+        }
+
+        http_response_code(200);
+        echo json_encode(['mensagem' => 'Token válido']);
     }
 }
