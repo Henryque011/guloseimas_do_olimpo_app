@@ -325,11 +325,11 @@ class ApiController extends Controller
             // $link = "https://360criativo.com.br/api/redefinirSenha?token=$token";
 
             $mail->msgHTML("
-            OlÃ¡ {$cliente['nome_cliente']},<br><br>
+            Olá¡ {$cliente['nome_cliente']},<br><br>
             Recebemos uma solicitação para redefinir sua senha.<br>
             Clique no link abaixo para criar uma nova senha:<br><br>
             <a href='$link'>$link</a><br><br>
-            Se vocÃª nÃ£o fez essa solicitação, ignore este e-mail.
+            Se você não fez essa solicitação, ignore este e-mail.
         ");
             $mail->AltBody = "OlÃ¡ {$cliente['nome_cliente']}, acesse $link para redefinir sua senha.";
 
@@ -347,8 +347,8 @@ class ApiController extends Controller
     public function redefinirSenha()
     {
         $dados = array();
-        $dados['titulo'] = 'RecuperaÃ§Ã£o de senha - Ki Oficina';
-        $this->carregarViews('recuperar-senha', $dados);
+        $dados['titulo'] = 'Recuperação de senha - Guloseimas do Olimpo';
+        $this->carregarViews('redefinir_senha', $dados);
     }
 
     /** O usuÃ¡rio acessa o link com o token, define uma nova senha e salva. */
