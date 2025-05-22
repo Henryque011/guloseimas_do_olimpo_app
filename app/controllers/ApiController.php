@@ -262,7 +262,7 @@ class ApiController extends Controller
         }
     }
 
-    
+
     public function recuperarSenha()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -334,7 +334,7 @@ class ApiController extends Controller
             $mail->AltBody = "OlÃ¡ {$cliente['nome_cliente']}, acesse $link para redefinir sua senha.";
 
             $mail->send();
-            
+
             echo json_encode(['mensagem' => 'Um link de redefinição foi enviado para seu e-mail'], JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
             http_response_code(500);
@@ -377,16 +377,27 @@ class ApiController extends Controller
             return;
         }
 
-        $atualizado = $this->clienteModel->atualizarSenha($cliente['id_cliente'], $novaSenha);
+        $atualizado = $this->clienteModel->upadateSenha($cliente['id_cliente'], $novaSenha);
 
+        // if ($atualizado) {
+        //     $this->clienteModel->limparTokenRecuperacao($cliente['id_cliente']);
+        //     $dados['mensagem'] = 'Senha redefinida com sucesso';
+        //     $this->carregarViews('home', $dados);
+        // } else {
+        //     http_response_code(500);
+        //     $dados['erro'] = 'Erro ao atualizar a senha';
+        //     $this->carregarViews('home', $dados);
+        // }
+        
         if ($atualizado) {
             $this->clienteModel->limparTokenRecuperacao($cliente['id_cliente']);
-            $dados['mensagem'] = 'Senha redefinida com sucesso';
-            $this->carregarViews('home', $dados);
+
+            echo json_encode(['mensagem' => 'Senha redefinida com sucesso'], JSON_UNESCAPED_UNICODE);
+            return;
         } else {
             http_response_code(500);
-            $dados['erro'] = 'Erro ao atualizar a senha';
-            $this->carregarViews('home', $dados);
+            echo json_encode(['erro' => 'Erro ao atualizar a senha'], JSON_UNESCAPED_UNICODE);
+            return;
         }
     }
 }
