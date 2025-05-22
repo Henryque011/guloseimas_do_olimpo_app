@@ -325,7 +325,7 @@ class ApiController extends Controller
             // $link = "https://360criativo.com.br/api/redefinirSenha?token=$token";
 
             $mail->msgHTML("
-            Olá¡ {$cliente['nome_cliente']},<br><br>
+            Olá, {$cliente['nome_cliente']},<br><br>
             Recebemos uma solicitação para redefinir sua senha.<br>
             Clique no link abaixo para criar uma nova senha:<br><br>
             <a href='$link'>$link</a><br><br>
