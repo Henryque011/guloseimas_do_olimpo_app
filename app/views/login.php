@@ -71,7 +71,7 @@ require_once('template/head.php')
                                 name="lembrar"
                                 <?= isset($_COOKIE['email']) ? 'checked' : '' ?>>
                             <label for="lembrar">
-                                <p>lembrar email/senha</p>
+                                <p>lembrar email</p>
                             </label>
                         </div>
                     </div>
