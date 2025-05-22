@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 
-class menuController extends Controller
+class MenuController extends Controller
 {
     public function index()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class criarContaController extends Controller
+class CriarContaController extends Controller
 {
     public function index()
     {
