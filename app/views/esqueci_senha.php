@@ -85,7 +85,6 @@ require_once('template/head.php')
             border-color: #dc3545;
         }
 
-
         .modal-content {
             align-items: center;
             text-align: center;
