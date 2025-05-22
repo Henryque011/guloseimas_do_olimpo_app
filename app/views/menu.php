@@ -1,45 +1,3 @@
-<?php if (!empty($_SESSION['mensagem'])): ?>
-    <div id="mensagemModal" class="modal" style="
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        position: fixed;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #e6ffe6;
-        color: #006600;
-        padding: 20px;
-        border: 2px solid #006600;
-        border-radius: 10px;
-        z-index: 9999;
-        font-family: Poly;
-        min-width: 300px;
-    ">
-        <p><?php echo $_SESSION['mensagem']; ?></p>
-        <button onclick="document.getElementById('mensagemModal').style.display='none'" style="
-            margin-top: 20px;
-            padding: 8px 16px;
-            background: #006600;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        ">Fechar</button>
-    </div>
-
-    <script>
-        setTimeout(() => {
-            const modal = document.getElementById('mensagemModal');
-            if (modal) modal.style.display = 'none';
-        }, 5000);
-    </script>
-
-    <?php unset($_SESSION['mensagem']); ?>
-<?php endif; ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -59,7 +17,7 @@ require_once('template/head.php')
             <p>Olá, <?php echo $nome_cliente ?>!</p>
             <div class="container">
                 <div>
-                    <a href="#">
+                    <a href="<?php echo BASE_URL; ?>index.php?url=produtos">
                         <button>Produtos</button>
                     </a>
                 </div>
@@ -84,6 +42,47 @@ require_once('template/head.php')
             </div>
         </article>
     </section>
+    <?php if (!empty($_SESSION['mensagem'])): ?>
+        <div id="mensagemModal" class="modal" style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #e6ffe6;
+        color: #006600;
+        padding: 20px;
+        border: 2px solid #006600;
+        border-radius: 10px;
+        z-index: 9999;
+        font-family: Poly;
+        min-width: 300px;
+    ">
+            <p><?php echo $_SESSION['mensagem']; ?></p>
+            <button onclick="document.getElementById('mensagemModal').style.display='none'" style="
+            margin-top: 20px;
+            padding: 8px 16px;
+            background: #006600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        ">Fechar</button>
+        </div>
+
+        <script>
+            setTimeout(() => {
+                const modal = document.getElementById('mensagemModal');
+                if (modal) modal.style.display = 'none';
+            }, 5000);
+        </script>
+
+        <?php unset($_SESSION['mensagem']); ?>
+    <?php endif; ?>
 
     <script src="https://kit.fontawesome.com/bedd2811b0.js" crossorigin="anonymous"></script>
 </body>
