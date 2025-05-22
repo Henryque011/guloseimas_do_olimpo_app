@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php
+ob_start();
+session_start(); ?>
 
 <?php
 if (session_status() === PHP_SESSION_NONE) {
@@ -118,6 +120,7 @@ require_once('template/head.php')
     </script>
 
     <script src="https://kit.fontawesome.com/bedd2811b0.js" crossorigin="anonymous"></script>
+    <?php ob_end_flush(); ?>
 </body>
 
 </html>
