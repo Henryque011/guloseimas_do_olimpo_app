@@ -505,3 +505,59 @@ h1 {
         }
     }
 }
+
+.produto {
+    .site {
+        h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .filtrar {
+            align-items: center;
+            text-align: center;
+
+            input.escolher-valor {
+                margin: 0 0 5px 0;
+                width: 70%;
+                height: 8px;
+                border-radius: 5px;
+                appearance: none;
+                background: linear-gradient(to right, #1f6e22 50%, #ddd 50%);
+                outline: none;
+                transition: background 0.3s ease-in-out;
+
+                &::-webkit-slider-thumb {
+                    appearance: none;
+                    height: 20px;
+                    width: 20px;
+                    background: #1f6e22;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    border: 1px solid #fff;
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+                    margin-top: -6px;
+                }
+
+                &::-moz-range-thumb {
+                    height: 20px;
+                    width: 20px;
+                    background: #1f6e22;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    border: none;
+                }
+            }
+
+            p {
+                margin: 0 0 10px 0;
+                font-family: var(--font_text);
+                font-size: 12pt;
+            }
+
+            h3 {
+                font-family: var(--font_jacques);
+                text-transform: capitalize;
+            }
+        }
+    }
+}
