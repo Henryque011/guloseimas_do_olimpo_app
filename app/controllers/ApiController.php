@@ -3,10 +3,12 @@
 class ApiController extends Controller
 {
     private $clienteModel;
+    private $produtoModel;
 
     public function __construct()
     {
         $this->clienteModel = new Cliente();
+        $this->produtoModel = new Produto();
     }
 
     public function index()
@@ -388,7 +390,6 @@ class ApiController extends Controller
         //     $dados['erro'] = 'Erro ao atualizar a senha';
         //     $this->carregarViews('home', $dados);
         // }
-        
         if ($atualizado) {
             $this->clienteModel->limparTokenRecuperacao($cliente['id_cliente']);
 
@@ -399,5 +400,18 @@ class ApiController extends Controller
             echo json_encode(['erro' => 'Erro ao atualizar a senha'], JSON_UNESCAPED_UNICODE);
             return;
         }
+    }
+
+    public function listarProdutos()
+    {
+        $produtos = $this->produtoModel->getTodosProdutos();
+
+        if (empty($produtos)) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Nenhum produto encontrado.']);
+            return;
+        }
+
+        echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 }
