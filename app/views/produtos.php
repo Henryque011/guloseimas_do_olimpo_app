@@ -24,12 +24,12 @@ require_once('template/head.php')
             </div>
 
             <div class="produtos">
-                
+
                 <?php if (isset($produtos) && is_array($produtos)): ?>
                     <?php foreach ($produtos as $produto): ?>
                         <div class="card-produto">
                             <h4><?= htmlspecialchars($produto['nome_produto']) ?></h4>
-                            <p><?= htmlspecialchars($produto['descricao_produto']) ?></p> 
+                            <p><?= htmlspecialchars($produto['descricao_produto']) ?></p>
                             <p>Preço: R$ <?= number_format($produto['preco_produto'], 2, ',', '.') ?></p>
                             <p>Categoria: <?= htmlspecialchars($produto['id_categoria']) ?></p>
 
@@ -46,7 +46,7 @@ require_once('template/head.php')
             </div>
         </article>
 
-        
+
     </section>
 
     <script>
@@ -62,6 +62,33 @@ require_once('template/head.php')
             precoAtual.textContent = value;
         });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const produtosContainer = document.getElementById("produtos");
+            const precoAtual = document.getElementById("preco-atual");
+
+            // Filtra por preço
+            function filtrarPorPreco(precoMaximo) {
+                precoAtual.textContent = precoMaximo; // Atualiza o texto do preço selecionado
+
+                fetch(`<?php echo BASE_URL; ?>produtos/filtrarPorPreco?preco=${precoMaximo}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        let cleanedData = data.trim(); // Remove espaços extras
+
+                        if (cleanedData === "") {
+                            produtosContainer.innerHTML = "<p class='sem-produtos'>Nenhum produto encontrado dentro desse preço.</p>";
+                        } else {
+                            produtosContainer.innerHTML = cleanedData; // Substitui os produtos com os filtrados
+                            reatribuirEventosFavoritos(); // 🔥 REATRIBUIR EVENTOS AOS NOVOS BOTÕES
+                        }
+                    })
+                    .catch(error => console.error("Erro ao filtrar por preço:", error));
+            }
+        });
+    </script>
+
 </body>
 
 </html>
