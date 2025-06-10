@@ -27,17 +27,13 @@ require_once('template/head.php')
 
                 <?php if (isset($produtos) && is_array($produtos)): ?>
                     <?php foreach ($produtos as $produto): ?>
-                        <div class="card-produto">
-                            <h4><?= htmlspecialchars($produto['nome_produto']) ?></h4>
-                            <p><?= htmlspecialchars($produto['descricao_produto']) ?></p>
+                        <div class="produto">
+                            <h2><?= htmlspecialchars($produto['nome_produto']) ?></h2>
+                            <img src="<?= BASE_URL . $produto['foto_produto'] ?>"
+                                alt="<?= htmlspecialchars($produto['alt_foto_produto']) ?>"
+                                width="200">
                             <p>Preço: R$ <?= number_format($produto['preco_produto'], 2, ',', '.') ?></p>
                             <p>Categoria: <?= htmlspecialchars($produto['id_categoria']) ?></p>
-
-                            <?php if (!empty($produto['foto_produto'])): ?>
-                                <img src="<?= BASE_URL . 'public/assets/' . $produto['foto_produto'] ?>"
-                                    alt="<?= htmlspecialchars($produto['alt_foto_produto']) ?>"
-                                    width="150">
-                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
