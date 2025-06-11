@@ -404,7 +404,7 @@ class ApiController extends Controller
 
     public function listarProdutos()
     {
-        $produtos = $this->produtoModel->getTodosProdutos();
+        $produtos = $this->produtoModel->getTodosProdutos(100);
 
         if (empty($produtos)) {
             http_response_code(404);
@@ -412,6 +412,30 @@ class ApiController extends Controller
             return;
         }
 
+        // Se chegou aqui, tem produtos. Vamos exibir JSON só (não misturar echo HTML com JSON)
         echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+    public function listarImagens()
+    {
+        $produtos = $this->produtoModel->getProduto();
+
+        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/';
+
+        foreach ($produtos as &$produto) {
+            // Só adiciona o baseUrl se foto_produto não começar com http ou https
+            if (strpos($produto['foto_produto'], 'http') !== 0) {
+                $produto['foto_produto'] = $baseUrlImagem . $produto['foto_produto'];
+            }
+        }
+
+        if (empty($produtos)) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Nenhum produto encontrado.']);
+            return;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($produtos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 }
