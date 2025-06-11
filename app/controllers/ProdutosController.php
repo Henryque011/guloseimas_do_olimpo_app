@@ -24,7 +24,7 @@ class ProdutosController extends Controller
 
 
         // Buscar produtos na API (ajuste o endpoint conforme necessário)
-        $url = BASE_API . "listarProdutos";
+        $url = BASE_API . "listarImagens";
 
         $ch = curl_init($url);
 
