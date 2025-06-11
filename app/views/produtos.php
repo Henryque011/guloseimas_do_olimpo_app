@@ -23,25 +23,23 @@ require_once('template/head.php')
                 <h3>Filtrar por categoria</h3>
             </div>
 
-            <div class="produtos">
+            <div id="produtos" class="produtos">
 
                 <?php if (isset($produtos) && is_array($produtos)): ?>
                     <?php foreach ($produtos as $produto): ?>
                         <div class="produto">
                             <h2><?= htmlspecialchars($produto['nome_produto']) ?></h2>
-                            <img src="<?= BASE_URL . $produto['foto_produto'] ?>"
-                                alt="<?= htmlspecialchars($produto['alt_foto_produto']) ?>"
-                                width="200">
+                            <img src="<?= htmlspecialchars($produto['foto_produto']) ?>" alt="<?= htmlspecialchars($produto['alt_foto_produto']) ?>" width="200">
                             <p>Preço: R$ <?= number_format($produto['preco_produto'], 2, ',', '.') ?></p>
-                            <p>Categoria: <?= htmlspecialchars($produto['id_categoria']) ?></p>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p>Nenhum produto encontrado.</p>
                 <?php endif; ?>
-            </div>
-        </article>
 
+            </div>
+
+        </article>
 
     </section>
 
