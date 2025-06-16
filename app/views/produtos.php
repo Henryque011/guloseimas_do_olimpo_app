@@ -29,7 +29,7 @@ require_once('template/head.php')
                     <?php foreach ($produtos as $produto): ?>
                         <div class="produto">
                             <h2><?= htmlspecialchars($produto['nome_produto']) ?></h2>
-                            <img src="<?= htmlspecialchars($produto['foto_produto']) ?>" alt="<?= htmlspecialchars($produto['alt_foto_produto']) ?>" width="200">
+                            <img src="<?= htmlspecialchars($produto['foto_produto']) ?>" alt="...">
                             <p>Preço: R$ <?= number_format($produto['preco_produto'], 2, ',', '.') ?></p>
                         </div>
                     <?php endforeach; ?>
