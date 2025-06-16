@@ -64,7 +64,7 @@ require_once('template/head.php')
                     </div>
                     <div class="lembrar">
                         <a href="<?php echo BASE_URL . 'index.php?url=login/esqueciSenha'; ?>">Esqueceu a senha?</a>
-                        <div class="checkbox">
+                        <!-- <div class="checkbox">
                             <input
                                 type="checkbox"
                                 id="lembrar"
@@ -73,7 +73,7 @@ require_once('template/head.php')
                             <label for="lembrar">
                                 <p>lembrar email</p>
                             </label>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="space"></div>
                     <div class="button_form">
