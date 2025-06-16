@@ -392,13 +392,12 @@ class ApiController extends Controller
         // }
         if ($atualizado) {
             $this->clienteModel->limparTokenRecuperacao($cliente['id_cliente']);
-
-            echo json_encode(['mensagem' => 'Senha redefinida com sucesso'], JSON_UNESCAPED_UNICODE);
-            return;
+            $dados['mensagem'] = 'Senha redefinida com sucesso.';
+            $this->carregarViews('sucesso_senha', $dados);
         } else {
             http_response_code(500);
-            echo json_encode(['erro' => 'Erro ao atualizar a senha'], JSON_UNESCAPED_UNICODE);
-            return;
+            $dados['mensagem'] = 'Erro ao atualizar a senha.';
+            $this->carregarViews('sucesso_senha', $dados);
         }
     }
 
