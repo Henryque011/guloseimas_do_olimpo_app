@@ -422,10 +422,13 @@ class ApiController extends Controller
         $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/';
 
         foreach ($produtos as &$produto) {
-            // Só adiciona o baseUrl se foto_produto não começar com http ou https
-            if (strpos($produto['foto_produto'], 'http') !== 0) {
-                $produto['foto_produto'] = $baseUrlImagem . $produto['foto_produto'];
+            // Se já começar com http, deixa como está
+            if (strpos($produto['foto_produto'], 'http') === 0) {
+                continue;
             }
+
+            // Se já tiver o prefixo correto, só adiciona a base
+            $produto['foto_produto'] = $baseUrlImagem . ltrim($produto['foto_produto'], '/');
         }
 
         if (empty($produtos)) {
