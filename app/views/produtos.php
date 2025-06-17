@@ -20,8 +20,10 @@ require_once('template/head.php')
             <div class="filtrar">
                 <input type="range" min="0" max="100" value="50" class="escolher-valor" id="escolher-valor">
                 <p>Preço: R$ <span id="preco-atual">0</span></p>
-                <h3>Filtrar por categoria</h3>
             </div>
+
+            <h3>Filtrar por categoria</h3>
+
 
             <div id="produtos" class="produtos">
 
@@ -29,7 +31,9 @@ require_once('template/head.php')
                     <?php foreach ($produtos as $produto): ?>
                         <div class="produto">
                             <h2><?= htmlspecialchars($produto['nome_produto']) ?></h2>
-                            <img src="<?= htmlspecialchars($produto['foto_produto']) ?>" alt="...">
+                            <img
+                                src="<?= htmlspecialchars($produto['foto_produto']) ?>"
+                                alt="<?= htmlspecialchars($produto['alt_foto_produto'] ?? $produto['nome_produto']) ?>">
                             <p>Preço: R$ <?= number_format($produto['preco_produto'], 2, ',', '.') ?></p>
                         </div>
                     <?php endforeach; ?>

@@ -7,7 +7,6 @@ class ProdutosController extends Controller
 {
     public function index()
     {
-
         if (!isset($_SESSION['token'])) {
             header("location: " . BASE_URL . "index.php?url=login");
             exit;
@@ -22,27 +21,21 @@ class ProdutosController extends Controller
             exit;
         }
 
-
-        // Buscar produtos na API (ajuste o endpoint conforme necessário)
+        // Buscar todos os produtos na API
         $url = BASE_API . "listarProdutos";
-
         $ch = curl_init($url);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'AUTHORIZATION: Bearer ' . $_SESSION['token']
         ]);
 
         $response = curl_exec($ch);
-
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
         curl_close($ch);
 
         if ($statusCode != 200) {
-            echo "Erro ao buscar os produtos na API.\n
-        Código HTTP: $statusCode";
+            echo "Erro ao buscar os produtos na API.\nCódigo HTTP: $statusCode";
             exit;
         }
 
@@ -52,7 +45,6 @@ class ProdutosController extends Controller
         $dados['titulo'] = 'kiOficina - listar produtos';
         $dados['produtos'] = $produtos;
 
-        // Carregar a view apropriada para produtos
         $this->carregarViews('produtos', $dados);
     }
 }
