@@ -411,10 +411,9 @@ class ApiController extends Controller
             return;
         }
 
-        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/';
+        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/produtos/';
 
         foreach ($produtos as &$produto) {
-            // Se já for uma URL completa, não muda
             if (strpos($produto['foto_produto'], 'http') !== 0) {
                 $produto['foto_produto'] = $baseUrlImagem . ltrim($produto['foto_produto'], '/');
             }
@@ -423,21 +422,16 @@ class ApiController extends Controller
         echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
-
     public function listarImagens()
     {
         $produtos = $this->produtoModel->getProduto();
 
-        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/';
+        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/produtos/';
 
         foreach ($produtos as &$produto) {
-            // Se já começar com http, deixa como está
-            if (strpos($produto['foto_produto'], 'http') === 0) {
-                continue;
+            if (strpos($produto['foto_produto'], 'http') !== 0) {
+                $produto['foto_produto'] = $baseUrlImagem . ltrim($produto['foto_produto'], '/');
             }
-
-            // Se já tiver o prefixo correto, só adiciona a base
-            $produto['foto_produto'] = $baseUrlImagem . ltrim($produto['foto_produto'], '/');
         }
 
         if (empty($produtos)) {
