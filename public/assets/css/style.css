@@ -522,7 +522,7 @@ h1 {
                 height: 8px;
                 border-radius: 5px;
                 appearance: none;
-                background: linear-gradient(to right, #1f6e22 50%, #ddd 50%);
+                background: linear-gradient(to right, #1f6e22 0%, #ddd 0%);
                 outline: none;
                 transition: background 0.3s ease-in-out;
 
