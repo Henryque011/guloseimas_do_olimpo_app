@@ -509,7 +509,7 @@ h1 {
 .produto {
     .site {
         h2 {
-            margin: 0 0 10px 0;
+            margin: 10px 0 10px 0;
         }
 
         .filtrar {
@@ -549,14 +549,44 @@ h1 {
             }
 
             p {
-                margin: 0 0 10px 0;
-                font-family: var(--font_text);
+                margin: 5px 0 10px 0;
+                font-family: var(--font_jacques);
                 font-size: 12pt;
+
+                .preco-atual {
+                    font-family: var(--font_text);
+                    color: var(--dark-green);
+                    text-transform: capitalize;
+                    font-weight: bolder;
+                    font-size: 12pt;
+                }
             }
 
             h3 {
                 font-family: var(--font_jacques);
                 text-transform: capitalize;
+            }
+        }
+
+        .categoria {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            h3 {
+                font-family: var(--font_jacques);
+                text-transform: capitalize;
+                letter-spacing: 2px;
+            }
+
+            .box_categoria {
+                margin: 10px 0 0 0;
+                font-family: var(--font_jacques);
+                box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+
+                border-radius: 10px;
+                width: 200px;
+                height: 30px;
             }
         }
     }
