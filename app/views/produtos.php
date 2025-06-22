@@ -24,19 +24,19 @@ require_once('template/head.php')
 
             <div class="categoria">
                 <h3>Filtrar por categoria</h3>
-                <!-- <pre><?php var_dump($categorias); ?></pre> -->
 
                 <select name="categoria" id="categoria" class="box_categoria" required onchange="filtrarCategoria(this.value)">
                     <option value="">Selecione a categoria</option>
+                    <option value="todos">Listar todos os produtos</option> 
                     <?php foreach ($categorias as $categoria): ?>
-                        <option value="<?= htmlspecialchars($categoria['nome_categoria']) ?>">
+                        <option value="<?= $categoria['id_categoria'] ?>">
                             <?= htmlspecialchars($categoria['nome_categoria']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
 
-            </div>
 
+            </div>
 
             <div id="produtos" class="produtos">
 
@@ -109,8 +109,8 @@ require_once('template/head.php')
     </script>
 
     <script>
-        function filtrarCategoria(categoria) {
-            fetch(`<?= BASE_URL ?>produtos/filtrarPorCategoria?categoria=${encodeURIComponent(categoria)}`)
+        function filtrarCategoria(id) {
+            fetch(`<?= BASE_URL ?>index.php?url=produtos/filtrarPorCategoria&id=${encodeURIComponent(id)}`)
                 .then(response => response.text())
                 .then(data => {
                     const container = document.getElementById("produtos");
