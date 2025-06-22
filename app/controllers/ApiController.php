@@ -443,4 +443,50 @@ class ApiController extends Controller
         header('Content-Type: application/json');
         echo json_encode($produtos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
+
+    public function listarCategorias()
+    {
+        $categorias = $this->produtoModel->getTodasCategorias();
+
+        if (empty($categorias)) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Nenhuma categoria encontrada.']);
+            return;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($categorias, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    }
+
+    public function filtrarPorCategoria()
+    {
+        // Pega a categoria da URL: ?categoria=Bolos
+        $categoria = $_GET['categoria'] ?? null;
+
+        // Caso nenhum parâmetro tenha sido passado
+        if (!$categoria) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Categoria não informada']);
+            return;
+        }
+
+        $produtos = $this->produtoModel->getPg_produtos($categoria, 'Ativo');
+
+        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/produtos/';
+
+        foreach ($produtos as &$produto) {
+            if (strpos($produto['foto_produto'], 'http') !== 0) {
+                $produto['foto_produto'] = $baseUrlImagem . ltrim($produto['foto_produto'], '/');
+            }
+        }
+
+        if (empty($produtos)) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Nenhum produto encontrado para essa categoria.']);
+            return;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
 }
