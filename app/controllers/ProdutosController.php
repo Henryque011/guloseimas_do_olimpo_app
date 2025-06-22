@@ -13,7 +13,6 @@ class ProdutosController extends Controller
         }
 
         $dadoToken = TokenHelper::validar($_SESSION['token']);
-
         if (!$dadoToken) {
             session_destroy();
             unset($_SESSION['token']);
@@ -21,29 +20,33 @@ class ProdutosController extends Controller
             exit;
         }
 
-        // Buscar todos os produtos na API
-        $url = BASE_API . "listarProdutos";
-        $ch = curl_init($url);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        // Buscar produtos na API
+        $urlProdutos = BASE_API . 'listarProdutos';
+        $chProdutos = curl_init($urlProdutos);
+        curl_setopt($chProdutos, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chProdutos, CURLOPT_HTTPHEADER, [
             'AUTHORIZATION: Bearer ' . $_SESSION['token']
         ]);
+        $responseProdutos = curl_exec($chProdutos);
+        curl_close($chProdutos);
+        $produtos = json_decode($responseProdutos, true);
 
-        $response = curl_exec($ch);
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        // 🔽 Buscar categorias na API
+        $urlCategorias = BASE_API . 'listarCategorias';
+        $chCategorias = curl_init($urlCategorias);
+        curl_setopt($chCategorias, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chCategorias, CURLOPT_HTTPHEADER, [
+            'AUTHORIZATION: Bearer ' . $_SESSION['token']
+        ]);
+        $responseCategorias = curl_exec($chCategorias);
+        curl_close($chCategorias);
+        $categorias = json_decode($responseCategorias, true);
 
-        if ($statusCode != 200) {
-            echo "Erro ao buscar os produtos na API.\nCódigo HTTP: $statusCode";
-            exit;
-        }
-
-        $produtos = json_decode($response, true);
-
-        $dados = array();
+        // Monta os dados
+        $dados = [];
         $dados['titulo'] = 'kiOficina - listar produtos';
         $dados['produtos'] = $produtos;
+        $dados['categorias'] = $categorias; // 👈 AGORA EXISTE
 
         $this->carregarViews('produtos', $dados);
     }
