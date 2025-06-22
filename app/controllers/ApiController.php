@@ -460,17 +460,16 @@ class ApiController extends Controller
 
     public function filtrarPorCategoria()
     {
-        // Pega a categoria da URL: ?categoria=Bolos
-        $categoria = $_GET['categoria'] ?? null;
+        $categoriaId = $_GET['id'] ?? null;
 
-        // Caso nenhum parâmetro tenha sido passado
-        if (!$categoria) {
+        if (!$categoriaId) {
             http_response_code(400);
-            echo json_encode(['erro' => 'Categoria não informada']);
+            echo json_encode(['erro' => 'ID da categoria não informado']);
             return;
         }
 
-        $produtos = $this->produtoModel->getPg_produtos($categoria, 'Ativo');
+        // Requisição segura com ID
+        $produtos = $this->produtoModel->getProdutosPorCategoria($categoriaId);
 
         $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/produtos/';
 
@@ -487,6 +486,6 @@ class ApiController extends Controller
         }
 
         header('Content-Type: application/json');
-        echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        echo json_encode($produtos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 }
