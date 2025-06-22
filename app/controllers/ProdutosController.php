@@ -50,4 +50,56 @@ class ProdutosController extends Controller
 
         $this->carregarViews('produtos', $dados);
     }
+
+    public function filtrarPorCategoria()
+    {
+        if (!isset($_SESSION['token'])) {
+            http_response_code(401);
+            echo "Usuário não autenticado.";
+            return;
+        }
+
+        $dadoToken = TokenHelper::validar($_SESSION['token']);
+        if (!$dadoToken) {
+            session_destroy();
+            unset($_SESSION['token']);
+            http_response_code(401);
+            echo "Token inválido.";
+            return;
+        }
+
+        $categoriaId = $_GET['id'] ?? null;
+
+        if (!$categoriaId) {
+            http_response_code(400);
+            echo "<p>Categoria não informada.</p>";
+            return;
+        }
+
+        // 🔗 Chamada para a API com o ID da categoria
+        $url = BASE_API . 'filtrarPorCategoria?id=' . urlencode($categoriaId);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $_SESSION['token']
+        ]);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $produtos = json_decode($response, true);
+
+        if (empty($produtos)) {
+            echo "<p>Nenhum produto encontrado para essa categoria.</p>";
+            return;
+        }
+
+        // 🖼️ Renderiza HTML simples dos produtos (sem carregar a view completa)
+        foreach ($produtos as $produto) {
+            echo "<div class='produto'>";
+            echo "<h2>" . htmlspecialchars($produto['nome_produto']) . "</h2>";
+            echo "<img src='" . htmlspecialchars($produto['foto_produto']) . "' alt='" . htmlspecialchars($produto['alt_foto_produto'] ?? $produto['nome_produto']) . "'>";
+            echo "<p>Preço: R$ " . number_format($produto['preco_produto'], 2, ',', '.') . "</p>";
+            echo "</div>";
+        }
+    }
 }
