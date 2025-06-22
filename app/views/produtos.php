@@ -19,10 +19,23 @@ require_once('template/head.php')
             <h2>Filtar por preços</h2>
             <div class="filtrar">
                 <input type="range" min="0" max="100" value="10" class="escolher-valor" id="escolher-valor">
-                <p>Preço: R$ <span id="preco-atual">0</span></p>
+                <p>Preço: R$ <span id="preco-atual" class="preco-atual">0</span></p>
             </div>
 
-            <h3>Filtrar por categoria</h3>
+            <div class="categoria">
+                <h3>Filtrar por categoria</h3>
+                <!-- <pre><?php var_dump($categorias); ?></pre> -->
+
+                <select name="categoria" id="categoria" class="box_categoria" required onchange="filtrarCategoria(this.value)">
+                    <option value="">Selecione a categoria</option>
+                    <?php foreach ($categorias as $categoria): ?>
+                        <option value="<?= htmlspecialchars($categoria['nome_categoria']) ?>">
+                            <?= htmlspecialchars($categoria['nome_categoria']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+
+            </div>
 
 
             <div id="produtos" class="produtos">
@@ -93,6 +106,18 @@ require_once('template/head.php')
                     .catch(error => console.error("Erro ao filtrar por preço:", error));
             }
         });
+    </script>
+
+    <script>
+        function filtrarCategoria(categoria) {
+            fetch(`<?= BASE_URL ?>produtos/filtrarPorCategoria?categoria=${encodeURIComponent(categoria)}`)
+                .then(response => response.text())
+                .then(data => {
+                    const container = document.getElementById("produtos");
+                    container.innerHTML = data.trim() || "<p>Nenhum produto encontrado para essa categoria.</p>";
+                })
+                .catch(err => console.error("Erro ao filtrar por categoria:", err));
+        }
     </script>
 
 </body>
