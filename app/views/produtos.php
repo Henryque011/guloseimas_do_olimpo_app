@@ -43,8 +43,10 @@ require_once('template/head.php')
                         <div class="produto">
                             <h2><?= htmlspecialchars($produto['nome_produto']) ?></h2>
 
-                            <img src="<?= htmlspecialchars($produto['foto_produto'], ENT_QUOTES, 'UTF-8') ?>"
-                                alt="<?= htmlspecialchars($produto['alt_foto_produto'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                            <a href="index.php?url=info_produto&id=<?= $produto['id_produto'] ?>">
+                                <img src="<?= htmlspecialchars($produto['foto_produto'], ENT_QUOTES, 'UTF-8') ?>"
+                                    alt="<?= htmlspecialchars($produto['alt_foto_produto'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                            </a>
 
                             <p>Preço: R$ <?= number_format($produto['preco_produto'], 2, ',', '.') ?></p>
                         </div>
@@ -52,6 +54,10 @@ require_once('template/head.php')
                 <?php else: ?>
                     <p>Nenhum produto encontrado.</p>
                 <?php endif; ?>
+            </div>
+
+            <div class="button_voltar">
+                <a href="<?php echo BASE_URL; ?>index.php?url=menu"><button>Voltar para o menu</button></a>
             </div>
 
         </article>
