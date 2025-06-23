@@ -76,35 +76,33 @@ require_once('template/head.php')
         window.addEventListener("DOMContentLoaded", atualizarGradiente);
     </script>
 
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const produtosContainer = document.getElementById("produtos");
-            const precoAtual = document.getElementById("preco-atual");
+            const range = document.getElementById("escolher-valor");
+            range.addEventListener("input", () => {
+                const preco = range.value;
+                filtrarPorPreco(preco);
+            });
 
-            // Filtra por preço
-            function filtrarPorPreco(precoMaximo) {
-                precoAtual.textContent = precoMaximo;
-
-                fetch(`<?php echo BASE_URL; ?>produtos/filtrarPorPreco?preco=${precoMaximo}`)
+            function filtrarPorPreco(preco) {
+                fetch(`<?= BASE_URL ?>index.php?url=produtos/filtrarPorPreco&preco=${encodeURIComponent(preco)}`)
                     .then(response => response.text())
                     .then(data => {
-                        let cleanedData = data.trim();
-
-                        if (cleanedData === "") {
-                            produtosContainer.innerHTML = "<p class='sem-produtos'>Nenhum produto encontrado dentro desse preço.</p>";
-                        } else {
-                            produtosContainer.innerHTML = cleanedData;
-                            reatribuirEventosFavoritos();
-                        }
+                        const container = document.getElementById("produtos");
+                        container.innerHTML = data.trim() || "<p>Nenhum produto encontrado para esse preço.</p>";
                     })
-                    .catch(error => console.error("Erro ao filtrar por preço:", error));
+                    .catch(err => console.error("Erro ao filtrar por preço:", err));
             }
         });
     </script>
 
     <script>
         function filtrarCategoria(id) {
+            if (id === "todos") {
+                window.location.reload();
+                return;
+            }
+
             fetch(`<?= BASE_URL ?>index.php?url=produtos/filtrarPorCategoria&id=${encodeURIComponent(id)}`)
                 .then(response => response.text())
                 .then(data => {
@@ -112,11 +110,6 @@ require_once('template/head.php')
                     container.innerHTML = data.trim() || "<p>Nenhum produto encontrado para essa categoria.</p>";
                 })
                 .catch(err => console.error("Erro ao filtrar por categoria:", err));
-
-            if (id === "todos") {
-                window.location.reload();
-                return;
-            }
         }
     </script>
 
