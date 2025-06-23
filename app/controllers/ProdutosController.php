@@ -22,6 +22,7 @@ class ProdutosController extends Controller
 
         // Buscar produtos na API
         $urlProdutos = BASE_API . 'listarProdutos';
+
         $chProdutos = curl_init($urlProdutos);
         curl_setopt($chProdutos, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chProdutos, CURLOPT_HTTPHEADER, [
@@ -31,7 +32,7 @@ class ProdutosController extends Controller
         curl_close($chProdutos);
         $produtos = json_decode($responseProdutos, true);
 
-        // 🔽 Buscar categorias na API
+        //  Buscar categorias na API
         $urlCategorias = BASE_API . 'listarCategorias';
         $chCategorias = curl_init($urlCategorias);
         curl_setopt($chCategorias, CURLOPT_RETURNTRANSFER, true);
@@ -42,11 +43,11 @@ class ProdutosController extends Controller
         curl_close($chCategorias);
         $categorias = json_decode($responseCategorias, true);
 
-        // Monta os dados
+        // dados
         $dados = [];
         $dados['titulo'] = 'kiOficina - listar produtos';
         $dados['produtos'] = $produtos;
-        $dados['categorias'] = $categorias; // 👈 AGORA EXISTE
+        $dados['categorias'] = $categorias; 
 
         $this->carregarViews('produtos', $dados);
     }
@@ -76,7 +77,6 @@ class ProdutosController extends Controller
             return;
         }
 
-        // 🔗 Chamada para a API com o ID da categoria
         $url = BASE_API . 'filtrarPorCategoria?id=' . urlencode($categoriaId);
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -88,12 +88,11 @@ class ProdutosController extends Controller
 
         $produtos = json_decode($response, true);
 
-        if (empty($produtos)) {
-            echo "<p>Nenhum produto encontrado para essa categoria.</p>";
+        if (!is_array($produtos) || isset($produtos['erro'])) {
+            echo "<p>Erro ao carregar os produtos: " . htmlspecialchars($produtos['erro'] ?? 'Resposta inválida da API.') . "</p>";
             return;
         }
 
-        // 🖼️ Renderiza HTML simples dos produtos (sem carregar a view completa)
         foreach ($produtos as $produto) {
             echo "<div class='produto'>";
             echo "<h2>" . htmlspecialchars($produto['nome_produto']) . "</h2>";
