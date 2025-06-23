@@ -1,21 +1,48 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 class Info_produtoController extends Controller
 {
     public function index()
     {
-        $id = $_GET['id'] ?? null;
+        if (!isset($_SESSION['token'])) {
+            header("Location: " . BASE_URL . "index.php?url=login");
+            exit;
+        }
 
+        $dadoToken = TokenHelper::validar($_SESSION['token']);
+        if (!$dadoToken) {
+            session_destroy();
+            unset($_SESSION['token']);
+            header("Location: " . BASE_URL . "index.php?url=login");
+            exit;
+        }
+
+        $id = $_GET['id'] ?? null;
         if (!$id) {
             $dados['erro'] = 'ID do produto não informado.';
             $this->carregarViews('info_produto', $dados);
             return;
         }
 
-        // URL da API
-        $urlProduto = BASE_API . 'produtos/getServicoPorId?id=' . urlencode($id);
+        $url = BASE_API . 'getProdutoPorId?id=' . urlencode($id);
 
-        // Pega o conteúdo da API
-        $resposta = file_get_contents($urlProduto);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $_SESSION['token']
+        ]);
+        $resposta = curl_exec($ch);
+        curl_close($ch);
+
+        if ($resposta === false) {
+            $dados['erro'] = 'Erro ao acessar API.';
+            $this->carregarViews('info_produto', $dados);
+            return;
+        }
+
         $produto = json_decode($resposta, true);
 
         if (!$produto || !isset($produto['id_produto'])) {
@@ -24,15 +51,9 @@ class Info_produtoController extends Controller
             return;
         }
 
-        // Corrige imagem se necessário
-        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/uploads/produto/';
-        if (strpos($produto['foto_produto'], 'http') !== 0) {
-            $foto = preg_replace('#^produto[/\\\\]#', '', $produto['foto_produto']);
-            $foto = rawurlencode(str_replace('\\', '/', ltrim($foto, '/')));
-            $produto['foto_produto'] = $baseUrlImagem . $foto;
-        }
+        // Já que a API retorna caminho completo da imagem, não precisa corrigir.
+        $dados['produtos'][] = $produto;
 
-        $dados['produtos'][] = $produto; // envia como array
         $this->carregarViews('info_produto', $dados);
     }
 }
