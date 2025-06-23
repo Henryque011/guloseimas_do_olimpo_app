@@ -603,5 +603,30 @@ h1 {
                 height: 30px;
             }
         }
+
+        .button_voltar {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background-color: transparent;
+
+
+            button {
+                color: white;
+                margin-top: 20px;
+                width: 150px;
+                height: 50px;
+                border-color: white;
+                border-radius: 20px;
+                background-color: rgb(222, 62, 62);
+                font-size: 10pt;
+                box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+                font-family: var(--font_jacques);
+
+                i {
+                    margin: 0 0 0 5px;
+                }
+            }
+        }
     }
 }
