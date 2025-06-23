@@ -26,11 +26,11 @@ require_once('template/head.php')
                         <button>Reservas</button>
                     </a>
                 </div>
-                <div>
+                <!-- <div>
                     <a href="#">
                         <button>Novidades</button>
                     </a>
-                </div>
+                </div> -->
                 <div>
                     <a href="#">
                         <button>Meu Perfil</button>
