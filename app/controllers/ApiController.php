@@ -87,6 +87,18 @@ class ApiController extends Controller
         }
     }
 
+    private function tratarFotoProduto($caminho)
+    {
+        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/uploads/produto/';
+
+        // Remove "produto/" se estiver no início
+        $foto = preg_replace('#^produto[/\\\\]#', '', $caminho);
+        // Corrige barras e escapa caracteres
+        $foto = rawurlencode(str_replace('\\', '/', ltrim($foto, '/')));
+
+        return $baseUrlImagem . $foto;
+    }
+
     public function salvarCliente()
     {
         try {
@@ -479,14 +491,11 @@ class ApiController extends Controller
             return;
         }
 
-        // Requisição segura com ID
         $produtos = $this->produtoModel->getProdutosPorCategoria($categoriaId);
-
-        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/uploads/produto/';
 
         foreach ($produtos as &$produto) {
             if (strpos($produto['foto_produto'], 'http') !== 0) {
-                $produto['foto_produto'] = $baseUrlImagem . ltrim($produto['foto_produto'], '/');
+                $produto['foto_produto'] = $this->tratarFotoProduto($produto['foto_produto']);
             }
         }
 
@@ -512,10 +521,9 @@ class ApiController extends Controller
 
         $produtos = $this->produtoModel->getProdutosPorPreco($preco);
 
-        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/uploads/produto/';
         foreach ($produtos as &$produto) {
             if (strpos($produto['foto_produto'], 'http') !== 0) {
-                $produto['foto_produto'] = $baseUrlImagem . ltrim($produto['foto_produto'], '/');
+                $produto['foto_produto'] = $this->tratarFotoProduto($produto['foto_produto']);
             }
         }
 
@@ -527,5 +535,61 @@ class ApiController extends Controller
 
         header('Content-Type: application/json');
         echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+    public function paginaProdutos()
+    {
+        $categoria = $_GET['categoria'] ?? null;
+        $status = $_GET['status'] ?? null;
+
+        $produtos = $this->produtoModel->getPg_produtos($categoria, $status);
+
+        if (empty($produtos)) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Nenhum produto encontrado.']);
+            return;
+        }
+
+        // Corrige imagem
+        foreach ($produtos as &$produto) {
+            if (strpos($produto['foto_produto'], 'http') !== 0) {
+                // Mesmo tratamento de imagem
+                $foto = preg_replace('#^produto[/\\\\]#', '', $produto['foto_produto']);
+                $foto = rawurlencode(str_replace('\\', '/', ltrim($foto, '/')));
+                $produto['foto_produto'] = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/uploads/produto/' . $foto;
+            }
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getServicoPorId()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'ID do serviço não informado']);
+            return;
+        }
+
+        $produto = $this->produtoModel->getServicoPorId($id);
+
+        if (!$produto) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Serviço não encontrado']);
+            return;
+        }
+
+        // Corrige imagem
+        if (strpos($produto['foto_produto'], 'http') !== 0) {
+            $foto = preg_replace('#^produto[/\\\\]#', '', $produto['foto_produto']);
+            $foto = rawurlencode(str_replace('\\', '/', ltrim($foto, '/')));
+            $produto['foto_produto'] = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/uploads/produto/' . $foto;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($produto, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 }
