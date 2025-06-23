@@ -38,14 +38,14 @@ require_once('template/head.php')
             </div>
 
             <div id="produtos" class="produtos">
-
                 <?php if (isset($produtos) && is_array($produtos)): ?>
                     <?php foreach ($produtos as $produto): ?>
                         <div class="produto">
                             <h2><?= htmlspecialchars($produto['nome_produto']) ?></h2>
-                            <img
-                                src="<?= htmlspecialchars($produto['foto_produto']) ?>"
-                                alt="<?= htmlspecialchars($produto['alt_foto_produto'] ?? $produto['nome_produto']) ?>">
+
+                            <img src="<?= htmlspecialchars($produto['foto_produto'], ENT_QUOTES, 'UTF-8') ?>"
+                                alt="<?= htmlspecialchars($produto['alt_foto_produto'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+
                             <p>Preço: R$ <?= number_format($produto['preco_produto'], 2, ',', '.') ?></p>
                         </div>
                     <?php endforeach; ?>
@@ -53,6 +53,7 @@ require_once('template/head.php')
                     <p>Nenhum produto encontrado.</p>
                 <?php endif; ?>
             </div>
+
         </article>
     </section>
 
@@ -86,6 +87,7 @@ require_once('template/head.php')
 
             function filtrarPorPreco(preco) {
                 fetch(`<?= BASE_URL ?>index.php?url=produtos/filtrarPorPreco&preco=${encodeURIComponent(preco)}`)
+
                     .then(response => response.text())
                     .then(data => {
                         const container = document.getElementById("produtos");
