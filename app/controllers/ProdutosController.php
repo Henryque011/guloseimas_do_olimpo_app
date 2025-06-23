@@ -47,7 +47,7 @@ class ProdutosController extends Controller
         $dados = [];
         $dados['titulo'] = 'kiOficina - listar produtos';
         $dados['produtos'] = $produtos;
-        $dados['categorias'] = $categorias; 
+        $dados['categorias'] = $categorias;
 
         $this->carregarViews('produtos', $dados);
     }
@@ -90,6 +90,56 @@ class ProdutosController extends Controller
 
         if (!is_array($produtos) || isset($produtos['erro'])) {
             echo "<p>Erro ao carregar os produtos: " . htmlspecialchars($produtos['erro'] ?? 'Resposta inválida da API.') . "</p>";
+            return;
+        }
+
+        foreach ($produtos as $produto) {
+            echo "<div class='produto'>";
+            echo "<h2>" . htmlspecialchars($produto['nome_produto']) . "</h2>";
+            echo "<img src='" . htmlspecialchars($produto['foto_produto']) . "' alt='" . htmlspecialchars($produto['alt_foto_produto'] ?? $produto['nome_produto']) . "'>";
+            echo "<p>Preço: R$ " . number_format($produto['preco_produto'], 2, ',', '.') . "</p>";
+            echo "</div>";
+        }
+    }
+
+    public function filtrarPorPreco()
+    {
+        if (!isset($_SESSION['token'])) {
+            http_response_code(401);
+            echo "Usuário não autenticado.";
+            return;
+        }
+
+        $dadoToken = TokenHelper::validar($_SESSION['token']);
+        if (!$dadoToken) {
+            session_destroy();
+            unset($_SESSION['token']);
+            http_response_code(401);
+            echo "Token inválido.";
+            return;
+        }
+
+        $preco = $_GET['preco'] ?? null;
+
+        if (!$preco) {
+            http_response_code(400);
+            echo "<p>Preço não informado.</p>";
+            return;
+        }
+
+        $url = BASE_API . 'filtrarPorPreco?preco=' . urlencode($preco);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $_SESSION['token']
+        ]);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $produtos = json_decode($response, true);
+
+        if (!is_array($produtos) || isset($produtos['erro'])) {
+            echo "<p>Erro ao carregar produtos: " . htmlspecialchars($produtos['erro'] ?? 'Erro desconhecido') . "</p>";
             return;
         }
 
