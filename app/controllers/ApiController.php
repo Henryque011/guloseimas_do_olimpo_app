@@ -488,4 +488,33 @@ class ApiController extends Controller
         header('Content-Type: application/json');
         echo json_encode($produtos, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
+
+    public function filtrarPorPreco()
+    {
+        $preco = $_GET['preco'] ?? null;
+
+        if (!$preco) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Preço não informado']);
+            return;
+        }
+
+        $produtos = $this->produtoModel->getProdutosPorPreco($preco);
+
+        $baseUrlImagem = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/produtos/';
+        foreach ($produtos as &$produto) {
+            if (strpos($produto['foto_produto'], 'http') !== 0) {
+                $produto['foto_produto'] = $baseUrlImagem . ltrim($produto['foto_produto'], '/');
+            }
+        }
+
+        if (empty($produtos)) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Nenhum produto encontrado para esse preço.']);
+            return;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
 }
