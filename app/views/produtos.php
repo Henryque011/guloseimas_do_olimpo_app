@@ -27,15 +27,14 @@ require_once('template/head.php')
 
                 <select name="categoria" id="categoria" class="box_categoria" required onchange="filtrarCategoria(this.value)">
                     <option value="">Selecione a categoria</option>
-                    <option value="todos">Listar todos os produtos</option> 
+
                     <?php foreach ($categorias as $categoria): ?>
                         <option value="<?= $categoria['id_categoria'] ?>">
                             <?= htmlspecialchars($categoria['nome_categoria']) ?>
                         </option>
                     <?php endforeach; ?>
+                    <option value="todos">Todos os produtos</option>
                 </select>
-
-
             </div>
 
             <div id="produtos" class="produtos">
@@ -53,11 +52,8 @@ require_once('template/head.php')
                 <?php else: ?>
                     <p>Nenhum produto encontrado.</p>
                 <?php endif; ?>
-
             </div>
-
         </article>
-
     </section>
 
     <script>
@@ -77,7 +73,6 @@ require_once('template/head.php')
 
         range.addEventListener("input", atualizarGradiente);
 
-        // Atualiza gradiente na primeira carga da página
         window.addEventListener("DOMContentLoaded", atualizarGradiente);
     </script>
 
@@ -89,18 +84,18 @@ require_once('template/head.php')
 
             // Filtra por preço
             function filtrarPorPreco(precoMaximo) {
-                precoAtual.textContent = precoMaximo; // Atualiza o texto do preço selecionado
+                precoAtual.textContent = precoMaximo;
 
                 fetch(`<?php echo BASE_URL; ?>produtos/filtrarPorPreco?preco=${precoMaximo}`)
                     .then(response => response.text())
                     .then(data => {
-                        let cleanedData = data.trim(); // Remove espaços extras
+                        let cleanedData = data.trim();
 
                         if (cleanedData === "") {
                             produtosContainer.innerHTML = "<p class='sem-produtos'>Nenhum produto encontrado dentro desse preço.</p>";
                         } else {
-                            produtosContainer.innerHTML = cleanedData; // Substitui os produtos com os filtrados
-                            reatribuirEventosFavoritos(); // 🔥 REATRIBUIR EVENTOS AOS NOVOS BOTÕES
+                            produtosContainer.innerHTML = cleanedData;
+                            reatribuirEventosFavoritos();
                         }
                     })
                     .catch(error => console.error("Erro ao filtrar por preço:", error));
@@ -117,6 +112,11 @@ require_once('template/head.php')
                     container.innerHTML = data.trim() || "<p>Nenhum produto encontrado para essa categoria.</p>";
                 })
                 .catch(err => console.error("Erro ao filtrar por categoria:", err));
+
+            if (id === "todos") {
+                window.location.reload();
+                return;
+            }
         }
     </script>
 
