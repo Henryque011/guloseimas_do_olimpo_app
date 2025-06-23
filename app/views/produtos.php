@@ -93,7 +93,6 @@ require_once('template/head.php')
 
             function filtrarPorPreco(preco) {
                 fetch(`<?= BASE_URL ?>index.php?url=produtos/filtrarPorPreco&preco=${encodeURIComponent(preco)}`)
-
                     .then(response => response.text())
                     .then(data => {
                         const container = document.getElementById("produtos");
@@ -103,6 +102,7 @@ require_once('template/head.php')
             }
         });
     </script>
+
 
     <script>
         function filtrarCategoria(id) {
