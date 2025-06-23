@@ -564,7 +564,7 @@ class ApiController extends Controller
         echo json_encode($produtos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
-    public function getServicoPorId()
+    public function getProdutoPorId()
     {
         $id = $_GET['id'] ?? null;
 
@@ -574,7 +574,7 @@ class ApiController extends Controller
             return;
         }
 
-        $produto = $this->produtoModel->getServicoPorId($id);
+        $produto = $this->produtoModel->getProdutoPorId($id);
 
         if (!$produto) {
             http_response_code(404);
