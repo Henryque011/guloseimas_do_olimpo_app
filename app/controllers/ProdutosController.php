@@ -96,7 +96,9 @@ class ProdutosController extends Controller
         foreach ($produtos as $produto) {
             echo "<div class='produto'>";
             echo "<h2>" . htmlspecialchars($produto['nome_produto']) . "</h2>";
+            echo "<a href='index.php?url=info_produto&id=" . $produto['id_produto'] . "'>";
             echo "<img src='" . htmlspecialchars($produto['foto_produto']) . "' alt='" . htmlspecialchars($produto['alt_foto_produto'] ?? $produto['nome_produto']) . "'>";
+            echo "</a>";
             echo "<p>Preço: R$ " . number_format($produto['preco_produto'], 2, ',', '.') . "</p>";
             echo "</div>";
         }
@@ -146,7 +148,9 @@ class ProdutosController extends Controller
         foreach ($produtos as $produto) {
             echo "<div class='produto'>";
             echo "<h2>" . htmlspecialchars($produto['nome_produto']) . "</h2>";
+            echo "<a href='index.php?url=info_produto&id=" . $produto['id_produto'] . "'>";
             echo "<img src='" . htmlspecialchars($produto['foto_produto']) . "' alt='" . htmlspecialchars($produto['alt_foto_produto'] ?? $produto['nome_produto']) . "'>";
+            echo "</a>";
             echo "<p>Preço: R$ " . number_format($produto['preco_produto'], 2, ',', '.') . "</p>";
             echo "</div>";
         }
