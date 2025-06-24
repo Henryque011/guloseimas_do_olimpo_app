@@ -570,7 +570,7 @@ class ApiController extends Controller
 
         if (!$id) {
             http_response_code(400);
-            echo json_encode(['erro' => 'ID do serviço não informado']);
+            echo json_encode(['erro' => 'ID do produto não informado']);
             return;
         }
 
@@ -578,11 +578,10 @@ class ApiController extends Controller
 
         if (!$produto) {
             http_response_code(404);
-            echo json_encode(['mensagem' => 'Serviço não encontrado']);
+            echo json_encode(['mensagem' => 'Produto não encontrado']);
             return;
         }
 
-        // Corrige imagem
         if (strpos($produto['foto_produto'], 'http') !== 0) {
             $foto = preg_replace('#^produto[/\\\\]#', '', $produto['foto_produto']);
             $foto = rawurlencode(str_replace('\\', '/', ltrim($foto, '/')));
@@ -591,5 +590,30 @@ class ApiController extends Controller
 
         header('Content-Type: application/json');
         echo json_encode($produto, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getProdutoCompleto()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'ID não informado']);
+            return;
+        }
+
+        $produtoModel = new Produto();
+        $produto = $produtoModel->getProdutoCompletoPorId($id);
+
+        if (!$produto) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Produto não encontrado']);
+            return;
+        }
+
+
+        header('Content-Type: application/json');
+        echo json_encode($produto, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        return;
     }
 }
