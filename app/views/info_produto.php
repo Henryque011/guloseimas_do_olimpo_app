@@ -12,6 +12,7 @@ require_once('template/header.php');
     <section class="detalhe-produto" id="detalhes-produto">
 
         <?php if (!empty($produto)): ?>
+            <h2><?= htmlspecialchars($produto['nome_produto']) ?></h2>
             <img src="<?= htmlspecialchars($produto['foto_produto']) ?>"
                 alt="<?= htmlspecialchars($produto['alt_foto_produto'] ?? '') ?>"
                 style="max-width:300px;">
@@ -24,9 +25,15 @@ require_once('template/header.php');
                 <p><strong>Entrega:</strong> <?= htmlspecialchars($produto['entrega_info_produtos'] ?? 'Não informada') ?></p>
                 <p><strong>Reserva:</strong> <?= htmlspecialchars($produto['reserva_info_produtos'] ?? 'Não informada') ?></p>
             </div>
-            <a href="<?= BASE_URL ?>info_produtos/adicionarReserva/<?= $produto['id_produto'] ?>">
-                <button>Reservar Agora</button>
-            </a>
+            <div class="btn-reserva">
+                <a href="<?= BASE_URL ?>info_produtos/adicionarReserva/<?= $produto['id_produto'] ?>">
+                    <button>Reservar Agora</button>
+                </a>
+            </div>
+
+            <div class="button_voltar">
+                <a href="<?php echo BASE_URL; ?>index.php?url=produtos"><button>Voltar para o produtos</button></a>
+            </div>
         <?php else: ?>
             <p>Produto não encontrado.</p>
         <?php endif; ?>
