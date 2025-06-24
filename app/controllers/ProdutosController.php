@@ -155,4 +155,43 @@ class ProdutosController extends Controller
             echo "</div>";
         }
     }
+
+    public function getProdutoPorId()
+    {
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'ID do produto não informado']);
+            return;
+        }
+
+        $url = BASE_API . 'getProdutoPorId?id=' . urlencode($id);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $_SESSION['token']
+        ]);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $produto = json_decode($response, true);
+
+        if (!is_array($produto) || empty($produto['id_produto'])) {
+            http_response_code(404);
+            echo json_encode(['mensagem' => 'Produto não encontrado']);
+            return;
+        }
+
+        // Corrigir imagem
+        if (strpos($produto['foto_produto'], 'http') !== 0) {
+            $foto = preg_replace('#^produto[/\\\\]#', '', $produto['foto_produto']);
+            $foto = rawurlencode(str_replace('\\', '/', ltrim($foto, '/')));
+            $produto['foto_produto'] = 'https://agenciatipi02.smpsistema.com.br/aluno/henryque/guloseimas_do_olimpophp/public/uploads/produto/' . $foto;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($produto, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
 }
