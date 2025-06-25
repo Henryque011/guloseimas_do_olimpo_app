@@ -22,7 +22,7 @@ require_once('template/head.php')
                     </a>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="<?php echo BASE_URL; ?>index.php?url=reservas">
                         <button>Reservas</button>
                     </a>
                 </div>
