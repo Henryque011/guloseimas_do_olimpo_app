@@ -616,4 +616,73 @@ class ApiController extends Controller
         echo json_encode($produto, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return;
     }
+
+    public function finalizarReserva()
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (empty($input['id_cliente']) || empty($input['carrinho'])) {
+            http_response_code(400);
+            echo json_encode(['erro' => 'Dados incompletos']);
+            return;
+        }
+
+        $id_cliente = $input['id_cliente'];
+        $carrinho = $input['carrinho'];
+        $dataReserva = date('Y-m-d H:i:s');
+        $total = 0;
+
+        foreach ($carrinho as $item) {
+            $total += $item['quantidade'] * $item['preco'];
+        }
+
+        try {
+            $this->db->beginTransaction();
+
+            $sqlReserva = "INSERT INTO tbl_reserva (id_cliente, valor_total, data_reserva) 
+                       VALUES (:id_cliente, :valor_total, :data_reserva)";
+            $stmt = $this->db->prepare($sqlReserva);
+            $stmt->bindValue(':id_cliente', $id_cliente);
+            $stmt->bindValue(':valor_total', $total);
+            $stmt->bindValue(':data_reserva', $dataReserva);
+            $stmt->execute();
+
+            $id_reserva = $this->db->lastInsertId();
+
+            $sqlItem = "INSERT INTO tbl_reserva_produtos (id_reserva, id_produto, quantidade, preco_unitario) 
+                    VALUES (:id_reserva, :id_produto, :quantidade, :preco_unitario)";
+            $stmtItem = $this->db->prepare($sqlItem);
+
+            foreach ($carrinho as $item) {
+                $stmtItem->execute([
+                    ':id_reserva' => $id_reserva,
+                    ':id_produto' => $item['id_produto'],
+                    ':quantidade' => $item['quantidade'],
+                    ':preco_unitario' => $item['preco']
+                ]);
+            }
+
+            $this->db->commit();
+            echo json_encode(['sucesso' => 'Reserva finalizada com sucesso']);
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            http_response_code(500);
+            echo json_encode(['erro' => 'Erro ao finalizar reserva: ' . $e->getMessage()]);
+        }
+    }
+
+    // ReservaController.php
+
+    public function getReservasPorCliente()
+    {
+        if (!isset($_GET['id_cliente'])) {
+            echo json_encode(['erro' => 'ID do cliente não informado']);
+            return;
+        }
+
+        $id_cliente = intval($_GET['id_cliente']);
+        $reservas = $this->reservaModel->listarReservasPorCliente($id_cliente);
+
+        echo json_encode($reservas, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    }
 }
