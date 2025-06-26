@@ -32,7 +32,7 @@ require_once('template/head.php')
                     </a>
                 </div> -->
                 <div>
-                    <a href="#">
+                    <a href="<?php echo BASE_URL; ?>index.php?url=perfil">
                         <button>Meu Perfil</button>
                     </a>
                 </div>

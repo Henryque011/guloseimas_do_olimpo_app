@@ -687,4 +687,51 @@ class ApiController extends Controller
 
         echo json_encode($reservas, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
+
+    public function getPerfilCliente()
+    {
+        if (!isset($_GET['id_cliente'])) {
+            echo json_encode(['erro' => 'ID do cliente não informado']);
+            return;
+        }
+
+        $id = intval($_GET['id_cliente']);
+
+        $this->clienteModel = new Cliente();
+
+        $cliente = $this->clienteModel->getClienteById($id);
+
+        if ($cliente) {
+            echo json_encode($cliente[0], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        } else {
+            echo json_encode(['erro' => 'Cliente não encontrado']);
+        }
+    }
+
+    public function atualizarPerfilCliente()
+    {
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        $email = $input['email'] ?? null;
+        $nome = $input['nome'] ?? null;
+        $cpf = $input['cpf'] ?? null;
+        $telefone = $input['telefone'] ?? null;
+        $data_nascimento = $input['data_nascimento'] ?? null;
+
+        if (!$email || !$nome || !$cpf || !$telefone || !$data_nascimento) {
+            echo json_encode(['erro' => 'Dados incompletos']);
+            return;
+        }
+
+        $this->clienteModel = new Cliente(); 
+
+        $sucesso = $this->clienteModel->atualizarCliente($email, $nome, $cpf, $telefone, $data_nascimento);
+
+        if ($sucesso) {
+            echo json_encode(['sucesso' => 'Dados atualizados com sucesso']);
+        } else {
+            echo json_encode(['erro' => 'Falha ao atualizar dados']);
+        }
+    }
 }
