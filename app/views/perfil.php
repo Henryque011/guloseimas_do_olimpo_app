@@ -47,6 +47,12 @@ require_once('template/head.php')
                 <div class="acoes_perfil">
                     <button type="submit" class="btn_salvar">Salvar alterações</button>
                 </div>
+
+                
+
+                <div class="button_voltar">
+                    <a href="<?php echo BASE_URL; ?>index.php?url=menu"><button>Voltar para o menu</button></a>
+                </div>
             </form>
         </article>
     </section>
