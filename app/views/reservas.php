@@ -34,6 +34,17 @@ require_once('template/head.php')
             <?php else: ?>
                 <p>Você ainda não fez nenhuma reserva.</p>
             <?php endif; ?>
+
+            <div class="btn-produtos">
+                <a href="<?php echo BASE_URL; ?>index.php?url=produtos">
+                    <button>Produtos</button>
+                </a>
+            </div>
+
+            <div class="button_voltar">
+
+                <a href="<?php echo BASE_URL; ?>index.php?url=menu"><button>Voltar para o menu</button></a>
+            </div>
         </article>
     </section>
 
