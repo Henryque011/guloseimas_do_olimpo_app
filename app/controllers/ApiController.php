@@ -4,11 +4,13 @@ class ApiController extends Controller
 {
     private $clienteModel;
     private $produtoModel;
+    private $reservaModel;
 
     public function __construct()
     {
         $this->clienteModel = new Cliente();
         $this->produtoModel = new Produto();
+        $this->reservaModel = new Reserva();
     }
 
     public function index()
